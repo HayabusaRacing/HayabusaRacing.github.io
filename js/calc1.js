@@ -75,7 +75,7 @@ function updatePlot() {
     const layout = {
         title: 'v-t with constant force applied',
         xaxis: { title: 't [ms]' },
-        yaxis: { title: 'x [m]' },
+        yaxis: { title: 'v [m/s]' },
         plot_bgcolor: '#13171f',
         paper_bgcolor: '#13171f',
         font: {
