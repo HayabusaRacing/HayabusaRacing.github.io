@@ -15,7 +15,7 @@ const cutOffSlider = document.getElementById('cutOffSlider');
 const massValue = document.getElementById('massValue');
 const kValue = document.getElementById('kValue');
 const forceValue = document.getElementById('forceValue');
-const cutOffValue = document.getElementById('cutOffSlider');
+const cutOffValue = document.getElementById('cutOffValue');
 
 const eta = document.getElementById('eta');
 
