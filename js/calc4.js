@@ -16,6 +16,8 @@ const kValue = document.getElementById('kValue');
 const forceValue = document.getElementById('forceValue');
 const cutOffValue = document.getElementById('cutOffSlider');
 
+const eta = document.getElementById('eta');
+
 function diffVelBefore(x, y) {
     return (F/M) - ((k / 1000)/M) * y**2;
 }
@@ -91,6 +93,15 @@ function multiplyArray(array, factor) {
     return array;
 }
 
+function findXofFirstYValueIndex(xArray, yArray, y) {
+    for (let i = 0; i < yArray.length; i++) {
+        if (yArray[i] >= y) {
+            return xArray[i];
+        }
+    }
+    return -1;
+}
+
 function updatePlot() {
     M = parseFloat(massSlider.value);
     k = parseFloat(kSlider.value);
@@ -126,6 +137,8 @@ function updatePlot() {
         },
     };
     Plotly.newPlot('plot', [trace], layout);
+
+    eta.textContent = findXofFirstYValueIndex(XVals, mm2mVals, 20).toFixed(1);
 }
 updatePlot();
 massSlider.addEventListener('input', updatePlot);
