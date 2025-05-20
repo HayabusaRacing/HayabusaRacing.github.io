@@ -64,7 +64,7 @@ function updatePlot() {
     kValue.textContent = k;
     forceValue.textContent = F;
     const XVals = linspace(0, endTime, endTime * stepPerMs);
-    const YVals = rungeKutta4(diffVel, XVals, 0.5);
+    const YVals = rungeKutta4(diffVel, XVals, 0.0);
     const trace = {
         x: XVals,
         y: YVals,

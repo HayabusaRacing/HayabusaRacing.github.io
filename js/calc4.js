@@ -5,6 +5,7 @@ let t_c = 1500;
 
 const endTime = 3000; //ms
 const stepPerMs = 50;
+const t_0Factor = 0.2;
 
 const massSlider = document.getElementById('massSlider');
 const kSlider = document.getElementById('kSlider');
@@ -23,7 +24,7 @@ function diffVelBefore(x, y) {
 }
 
 function diffVelAfter(x, y) {
-    let t_0 = t_c * 0.2;
+    let t_0 = t_c * t_0Factor;
     return (F/M) * ((Math.sqrt(t_0 / (x - t_c + t_0)))**3) - ((k / 1000)/M) * y**2;
 }
 
@@ -117,7 +118,7 @@ function updatePlot() {
     const secondYVals = rungeKutta4(diffVelAfter, secondXVals, firstYVals[firstYVals.length - 1]);
     const XVals = firstXVals.concat(secondXVals);
     const YVals = firstYVals.concat(secondYVals);
-    const integratedYVals = trapezoidalIntegral(XVals, YVals, 0.5);
+    const integratedYVals = trapezoidalIntegral(XVals, YVals, 0.0);
     const mm2mVals = multiplyArray(integratedYVals, 0.001);
     const trace = {
         x: XVals,
