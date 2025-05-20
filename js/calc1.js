@@ -3,7 +3,7 @@ let k = 1.0;
 let F = 2;
 
 const endTime = 3000; //ms
-const stemPerMs = 50;
+const stepPerMs = 50;
 
 const massSlider = document.getElementById('massSlider');
 const kSlider = document.getElementById('kSlider');
@@ -63,7 +63,7 @@ function updatePlot() {
     massValue.textContent = M;
     kValue.textContent = k;
     forceValue.textContent = F;
-    const XVals = linspace(0, endTime, endTime * stemPerMs);
+    const XVals = linspace(0, endTime, endTime * stepPerMs);
     const YVals = rungeKutta4(diffVel, XVals, 0.5);
     const trace = {
         x: XVals,
