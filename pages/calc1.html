@@ -5,22 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+            onload="renderMathInElement(document.body);"></script>
     <title>Hayabusa Racing Calculations</title>
 </head>
 <body>
     <main class="container">
         <a href="../index.html">return to index</a>
         <h1>Velocity Under Constant Force with Air Drag</h1>
-        <article style="width: 850px;">
-            <div class="slider-grid">
-                <label for="massSlider">Mass [g]: <span id="massValue">50</span></label>
+        <p>
+            We used a combination of Newton's Second Law of motion and the quadratic drag force to model the velocity of the car as a function of time. The model only accounts for two forces: Constant thrust from the CO2 cartridge and quadratic air drag.
+            \[F_{drag} = \frac{1}{2} \rho C_d A v^2 = k v^2\]
+            \[F_{total} = m a = F_{thrust} - F_{drag}\]
+            \[a = \frac{F_{total}}{m}\]
+            \[\frac{dv}{dt} = \frac{F_{thrust} - kv^2}{m}\]
+            This separable differential equation could be solved analytically, and turns out to form a tangent hyperbolic equation. On this page, we used the 4th-order Runge-Kutta method to numerically solve the differential equation and plot the velocity versus time graph.
+        </p>
+        <article class="container">
+            <div class="slider-grid with-padding">
+                <label for="massSlider">Mass: <code><span id="massValue">50</span></code> g</label>
                 <input type="range" id="massSlider" min="1" max="100" step="1" value="50">
 
-                <label for="kSlider">Drag k/1000 [mg/mm]: <span id="kValue">1.0</span></label>
+                <label for="kSlider">Drag: <code><span id="kValue">1.0</span></code> mg/mm</label>
                 <input type="range" id="kSlider" min="0" max="5" step="0.0001" value="1.0">
 
-                <label for="forceSlider">Force [N]: <span id="forceValue">2</span></label>
+                <label for="forceSlider">Thrust: <code><span id="forceValue">2</span></code> N</label>
                 <input type="range" id="forceSlider" min="0" max="5" step="0.0001" value="2">
             </div>
         </article>
