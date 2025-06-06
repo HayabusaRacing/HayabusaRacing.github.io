@@ -17,45 +17,6 @@ function diffVel(t, v) {
     return (F/M) - ((k / 1000)/M) * v**2;
 }
 
-function linspace(start, stop, num) {
-    const arr = [];
-    const step = (stop - start) / (num - 1);
-    for (let i = 0; i < num; i++) {
-        arr.push(start + step * i);
-    }
-    return arr;
-}
-
-function eulerMethod(f, xArray, y0) {
-    const yArray = [y0];
-    for (let i = 1; i < xArray.length; i++) {
-        const h = xArray[i] - xArray[i - 1];
-        const yPrev = yArray[i - 1];
-        const xPrev = xArray[i - 1];
-        const yNext = yPrev + h * f(xPrev, yPrev);
-        yArray.push(yNext);
-    }
-    return yArray;
-}
-
-function rungeKutta4(f, xArray, y0) {
-    const yArray = [y0];
-    for (let i = 1; i < xArray.length; i++) {
-        const h = xArray[i] - xArray[i - 1];
-        const xPrev = xArray[i - 1];
-        const yPrev = yArray[i - 1];
-
-        const k1 = f(xPrev, yPrev);
-        const k2 = f(xPrev + h / 2, yPrev + (h / 2) * k1);
-        const k3 = f(xPrev + h / 2, yPrev + (h / 2) * k2);
-        const k4 = f(xPrev + h, yPrev + h * k3);
-
-        const yNext = yPrev + (h / 6) * (k1 + 2 * k2 + 2 * k3 + k4);
-        yArray.push(yNext);
-    }
-    return yArray;
-}
-
 function updatePlot() {
     M = parseFloat(massSlider.value);
     k = parseFloat(kSlider.value);
