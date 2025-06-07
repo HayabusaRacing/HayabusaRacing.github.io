@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <title>Hayabusa Racing Calculations</title>
-</head>
+<head id="head"></head>
 <body>
 <main class="container">
+    <header id="header" class="container"></header>
+
     <a href="../index.html">return to index</a>
     <h1>Displacement Under Constant Force with Air Drag</h1>
     <article style="width: 850px;">
@@ -28,11 +23,10 @@
     <div id="plot" style="width: 100%; height: 500px;"></div>
 </main>
 
-<footer class="container">
-    &copy; 2025 CHANGE HOLDINGS Hayabusa Racing. All rights reserved.
-</footer>
+    <footer id="footer" class="container"></footer>
 </body>
 
+<script src="/js/modules/load-template.js"></script>
 <script src="/js/modules/util.js"></script>
 <script src="/js/calc2.js"></script>
 </html>
