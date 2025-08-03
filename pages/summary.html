@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id="head"></head>
+<body>
+    <header class="container">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+        <link rel="stylesheet" href="/css/style.css">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+                onload="renderMathInElement(document.body);"></script>
+        <title>Hayabusa Racing Calculations</title>
+    </header>
+
+    <main class="container">
+        <a href="../index.html">return to index</a>
+        <h1>Summary of the Simulation</h1>
+        <p>
+            We used a combination of Newton's Second Law of motion and the quadratic drag force to model the velocity of the car as a function of time. The model only accounts for two forces: Constant thrust from the CO2 cartridge and quadratic air drag.
+            \[F_{drag} = \frac{1}{2} \rho C_d A v^2 = k v^2\]
+            \[F_{total} = m a = F_{thrust} - F_{drag}\]
+            \[a = \frac{F_{total}}{m}\]
+            \[\frac{dv}{dt} = \frac{F_{thrust} - kv^2}{m}\]
+            This separable differential equation could be solved analytically, and turns out to form a tangent hyperbolic equation. On this page, we used the 4th-order Runge-Kutta method to numerically solve the differential equation and plot the velocity versus time graph.
+        </p>
+        <p>
+            We assumed that the affecting factors of the car's lap times are listed below:
+            <ul>
+                <li>Mass of the car</li>
+                <li>Aerodynamic drag</li>
+                <li>Aerodynamic lift</li>
+                <li>Thrust from the CO2 cartridge</li>
+                <li>Bearing friction</li>
+                <li>Rolling resistance</li>
+                <li>Wheel inertia</li>
+                <li>Cartridge-caused tipping moment</li>
+                <li>Aerodynamically-caused tipping moment</li>
+            </ul>
+            The following following forces will be scribed as a function of time:
+            \[F_{thrust}(t) \text{: the force created by the cartridge thrust}\]
+            \[F_{drag}(t) \text{: the force created by aerodynamic drag}\]
+            \[F_{lift}(t) \text{: the force created by aerodynamic lift}\]
+            \[F_{friction}(t) \text{: the force created by bearing friction}\]
+            \[F_{rolling}(t) \text{: the force created by rolling resistance}\]
+            In addition, the mass is expected to alter with respect to time, as the cartridge is used up, thus, we will scribe the mass as a function of time:
+            \[m(t) \text{: the mass of the car at time } t\]
+
+        </p>
+        
+    </main>
+
+    <footer id="footer" class="container"></footer>
+</body>
+
+<script src="/js/modules/load-template.js"></script>
+<script src="/js/modules/util.js"></script>
+<script src="/js/calc1.js"></script>
+</html>
