@@ -35,20 +35,26 @@
                 <li>Aerodynamic lift</li>
                 <li>Thrust from the CO2 cartridge</li>
                 <li>Bearing friction</li>
-                <li>Rolling resistance</li>
                 <li>Wheel inertia</li>
                 <li>Cartridge-caused tipping moment</li>
-                <li>Aerodynamically-caused tipping moment</li>
             </ul>
-            The following following forces will be scribed as a function of time:
+            The following forces will be modeled as a function of time:
             \[F_{thrust}(t) \text{: the force created by the cartridge thrust}\]
             \[F_{drag}(t) \text{: the force created by aerodynamic drag}\]
             \[F_{lift}(t) \text{: the force created by aerodynamic lift}\]
             \[F_{friction}(t) \text{: the force created by bearing friction}\]
-            \[F_{rolling}(t) \text{: the force created by rolling resistance}\]
-            In addition, the mass is expected to alter with respect to time, as the cartridge is used up, thus, we will scribe the mass as a function of time:
+            In addition, the mass of the car is expected to alter with respect to time, as the cartridge is used up; thus, we will model the mass as a function of time:
             \[m(t) \text{: the mass of the car at time } t\]
-
+            A single wheel's inertia could be considered as a virtual mass and will be a constant value.
+            \[I_{fw} \text{: the front wheel's inertia}\]
+            \[I_{rw} \text{: the rear wheel's inertia}\]
+            The tipping moment caused by the cartridge directly reduces the efficiency of the thrust, and will be a constant value.
+            \[\eta_{tip} \text{: the tipping moment efficiency factor}\]
+            Now, when we combine all these forces, we can write the equation of the force applied to the car.
+            \[F_{total}(t) = F_{thrust}(t) \cdot \eta_{tip} - F_{drag}(t) - F_{friction}(t)\]
+            According to Newton's Second Law, the derivative of the velocity is proportional to the total force applied to the car, divided by the mass of the car.
+            \[F=ma\]
+            \[a=\frac{dv}{dt} = \frac{F_{total}(t)}{m(t)}\ = \frac{F_{thrust}(t) \cdot \eta_{tip} - F_{drag}(t) - F_{friction}(t)}{m(t)}\]
         </p>
         
     </main>
