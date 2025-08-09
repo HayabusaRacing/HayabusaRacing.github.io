@@ -20,14 +20,6 @@
         <a href="../index.html">return to index</a>
         <h1>Summary of the Simulation</h1>
         <p>
-            We used a combination of Newton's Second Law of motion and the quadratic drag force to model the velocity of the car as a function of time. The model only accounts for two forces: Constant thrust from the CO2 cartridge and quadratic air drag.
-            \[F_{drag} = \frac{1}{2} \rho C_d A v^2 = k v^2\]
-            \[F_{total} = m a = F_{thrust} - F_{drag}\]
-            \[a = \frac{F_{total}}{m}\]
-            \[\frac{dv}{dt} = \frac{F_{thrust} - kv^2}{m}\]
-            This separable differential equation could be solved analytically, and turns out to form a tangent hyperbolic equation. On this page, we used the 4th-order Runge-Kutta method to numerically solve the differential equation and plot the velocity versus time graph.
-        </p>
-        <p>
             We assumed that the affecting factors of the car's lap times are listed below:
             <ul>
                 <li>Mass of the car</li>
@@ -35,6 +27,7 @@
                 <li>Aerodynamic lift</li>
                 <li>Thrust from the CO2 cartridge</li>
                 <li>Bearing friction</li>
+                <li>Tether guide resistance</li>
                 <li>Wheel inertia</li>
                 <li>Cartridge-caused tipping moment</li>
             </ul>
@@ -42,10 +35,12 @@
             \[F_{thrust}(t) \text{: the force created by the cartridge thrust}\]
             \[F_{drag}(t) \text{: the force created by aerodynamic drag}\]
             \[F_{lift}(t) \text{: the force created by aerodynamic lift}\]
-            \[F_{friction}(t) \text{: the force created by bearing friction}\]
+            \[F_{bearing}(t) \text{: the force created by bearing friction}\]
+            \[F_{tether}(t) \text{: the force created by tether guide resistance}\]
             In addition, the mass of the car is expected to alter with respect to time, as the cartridge is used up; thus, we will model the mass as a function of time:
             \[m(t) \text{: the mass of the car at time } t\]
             A single wheel's inertia could be considered as a virtual mass and will be a constant value.
+            \[I_{wheel} \text{: the total inertia of the wheels}\]
             \[I_{fw} \text{: the front wheel's inertia}\]
             \[I_{rw} \text{: the rear wheel's inertia}\]
             The tipping moment caused by the cartridge directly reduces the efficiency of the thrust, and will be a constant value.
@@ -54,9 +49,76 @@
             \[F_{total}(t) = F_{thrust}(t) \cdot \eta_{tip} - F_{drag}(t) - F_{friction}(t)\]
             According to Newton's Second Law, the derivative of the velocity is proportional to the total force applied to the car, divided by the mass of the car.
             \[F=ma\]
-            \[a=\frac{dv}{dt} = \frac{F_{total}(t)}{m(t)}\ = \frac{F_{thrust}(t) \cdot \eta_{tip} - F_{drag}(t) - F_{friction}(t)}{m(t)}\]
+            \[a=\frac{dv}{dt} = \frac{F_{total}(t)}{m(t) + I_{wheel}}\ = \frac{F_{thrust}(t) \cdot \eta_{tip} - F_{drag}(t) - F_{bearing}(t) - F_{tether}(t)}{m(t) + I_{wheel}}\]
+
+            Let's dive into the details of each force and how they are modeled.
         </p>
-        
+        <h2>Thrust Force</h2>
+        Working on this...
+        <h2>Drag Force</h2>
+        <p>
+            The aerodynamic drag force is modeled as a quadratic function of the velocity.
+            \[F_{drag}(t) = \frac{1}{2} \rho C_d A v^2 = k_d v^2\]
+            The coefficients of the drag forces are listed below.
+            <ul>
+                <li>\(\rho\): the air density.</li>
+                <li>\(C_d\): the drag coefficient, which is a dimensionless number that represents the drag per unit area; for a car.</li>
+                <li>\(A\): the frontal area of the car, which is the area projected by the car's silhouette when viewed from the front.</li>
+                <li>\(k_{drag}\): the drag coefficient, which is calculated as \(k_d = \frac{1}{2} \rho C_d A\)</li>
+            </ul>
+        </p>
+        <h2>Lift Force</h2>
+        <p>
+            The aerodynamic lift force is also modeled as a quadratic function of the velocity.
+            \[F_{lift}(t) = \frac{1}{2} \rho C_l A v^2 = k_l v^2\]
+            The coefficients of the lift forces are listed below.
+            <ul>
+                <li>\(\rho\): the air density.</li>
+                <li>\(C_l\): the lift coefficient, which is a dimensionless number that represents the lift per unit area; for a car.</li>
+                <li>\(A\): the frontal area of the car, which is the area projected by the car's silhouette when viewed from the front.</li>
+                <li>\(k_{lift}\): the lift coefficient, which is calculated as \(k_l = \frac{1}{2} \rho C_l A\)</li>
+            </ul>
+        </p>
+        <h2>Bearing Friction Force</h2>
+        <p>
+            The bearing friction force is modeled as a linear function that depends on the normal force applied to the wheels.
+            \[F_{bearing}(t) \approx F_0 + \mu_{bearing} (m(t)g - F_{lift}(t))\]
+            The coefficients of the bearing friction force are listed below.
+            <ul>
+                <li>\(F_0\): the virtual initial friction force when friction is modeled as a linear function with respect to time.</li>
+                <li>\(\mu_{bearing}\): the coefficient of friction between the wheels and the ground.</li>
+                <li>\(m(t)\): the mass of the car at time \(t\).</li>
+                <li>\(g\): the gravitational acceleration, which is approximately \(9.81 \, \text{m/s}^2\).</li>
+            </ul>
+        </p>
+        <h2>Tether Guide Resistance Force</h2>
+        Working on this....
+        <h2>Mass of the Car</h2>
+        <p>
+            The mass of the car is modeled as a function of time, as the cartridge uses up the CO2 gas by time.
+            \[m(t) \approx m_{total} - k_{CO_2} \cdot \int_0^t F_{thrust}(\tau) d\tau\]
+            The coefficients of the mass function are listed below.
+            <ul>
+                <li>\(m_{total}\): the total mass of the car at the start, including the fully charged cartridge.</li>
+                <li>\(k_{CO_2}\): the mass loss coefficient, which is calculated as the mass of the CO2 cartridge divided by the total thrust force.</li>
+                <li>\(F_{thrust}(t)\): the thrust force applied to the car at time \(t\).</li>
+            </ul>
+        </p>
+        <h2>Wheel Inertia</h2>
+        <p>
+            The inertia of the wheels is modeled as a virtual mass that affects the acceleration of the car.
+            \[I_{wheel} = 2I_{fw} + 2I_{rw}\]
+            The coefficients of the wheel inertia are listed below.
+            <ul>
+                <li>\(I_{fw}\): the inertia of the front wheel.</li>
+                <li>\(I_{rw}\): the inertia of the rear wheel.</li>
+            </ul>
+        </p>
+        <h2>Tipping Moment</h2>
+        <p>
+            The tipping moment caused by the cartridge is modeled as a constant and will proportionally reduce the efficiency of the thrust.
+            \[\eta_{tip} \approx 1 - \frac{d}{L_{eff}} \]
+        </p>
     </main>
 
     <footer id="footer" class="container"></footer>
