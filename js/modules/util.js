@@ -48,13 +48,13 @@ function rightHandRiemannSum(xArray, yArray, y0) {
     return resultArray;
 }
 
-function trapezoidalIntegral(xArray, yArray, y0) {
-    const resultArray = [y0];
+function trapezoidalIntegral(xArray, yArray, initialValue = 0) {
+    const resultArray = [initialValue];
     for (let i = 1; i < xArray.length; i++) {
         const h = xArray[i] - xArray[i - 1];
-        const xPrev = resultArray[i - 1];
+        const prevIntegral = resultArray[i - 1];
         const avgY = (yArray[i] + yArray[i - 1]) / 2;
-        resultArray.push(xPrev + h * avgY);
+        resultArray.push(prevIntegral + h * avgY);
     }
     return resultArray;
 }
@@ -71,4 +71,11 @@ function findXofFirstYValueIndex(xArray, yArray, y) {
         }
     }
     return -1;
+}
+
+function definiteIntegral(f, a, b, n=1000) {
+    const xs = linspace(a, b, n + 1);
+    const ys = xs.map(x => f(x));
+    const result_array = trapezoidalIntegral(xs, ys, 0);
+    return result_array[result_array.length - 1];
 }

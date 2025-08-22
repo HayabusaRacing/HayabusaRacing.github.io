@@ -92,7 +92,19 @@
             </ul>
         </p>
         <h2>Tether Guide Resistance Force</h2>
-        Working on this....
+        <p>
+            The tether guide resistance force is modeled as a constant force that depends on the car's tether guide position.
+            \[F_{tether}(t) \approx \mu T(\frac{h}{\sqrt{x(t)^2 + h^2}} + \frac{h}{\sqrt{(D - x(t) - L)^2 + h^2}}) \approx \mu_t T\]
+            The coefficients of the tether guide resistance force are listed below.
+            <ul>
+                <li>\(\mu_t\): the coefficient of friction between the tether and the guide.</li>
+                <li>\(T\): the tension in the tether, which is a constant force that depends on the track.</li>
+                <li>\(h\): the height of the tether guide above the ground.</li>
+                <li>\(x\): the horizontal position of the car.</li>
+                <li>\(D\): the length of the tether.</li>
+                <li>\(L\): the distance between the front and rear wheels.</li>
+            </ul>
+        </p>
         <h2>Mass of the Car</h2>
         <p>
             The mass of the car is modeled as a function of time, as the cartridge uses up the CO2 gas by time.
@@ -118,6 +130,24 @@
         <p>
             The tipping moment caused by the cartridge is modeled as a constant and will proportionally reduce the efficiency of the thrust.
             \[\eta_{tip} \approx 1 - \frac{d}{L_{eff}} \]
+            The coefficients of the tipping moment are listed below.
+            <ul>
+                <li>\(d\): the distance from the center of mass to the point where the cartridge is attached.</li>
+                <li>\(L_{eff}\): the effective length of the car, which is the distance from the front wheel to the rear wheel.</li>
+            </ul>
+        </p>
+        <h2>Summary</h2>
+        <p>
+            Taking into account all the forces and coefficients, we can summarize the equations of motion for the car as follows:
+            \[F_{total}(t) = F_{thrust}(t) \cdot \eta_{tip} - F_{drag}(t) - F_{bearing}(t) - F_{tether}(t)\]
+            \[a(t) = \frac{F_{total}(t)}{m(t) + I_{wheel}}\]
+            \[v(t) = \int_0^t a(\tau) d\tau\]
+            \[s(t) = \int_0^t v(\tau) d\tau\]
+            \[m(t) = m_{total} - k_{CO_2} \cdot \int_0^t F_{thrust}(\tau) d\tau\]
+            \[I_{wheel} = 2I_{fw} + 2I_{rw}\]
+            \[\eta_{tip} = 1 - \frac{d}{L_{eff}}\]
+            These equations will be used to simulate the car's motion and calculate the lap times based on the initial conditions and parameters provided.
+            \[\frac{dv}{dt}=\frac{F_{total}(t)}{m(t) + I_{wheel}}=\frac{F_{thrust}(t) \cdot (1 - \frac{d}{L_{eff}}) - k_d v^2 - (F_0 + \mu_{bearing} (m(t)g - F_{lift}(t))) - F_{tether}(t)}{m_{total} - k_{CO_2} \cdot \int_0^t F_{thrust}(\tau) d\tau + 2I_{fw} + 2I_{rw}}\]
         </p>
     </main>
 
