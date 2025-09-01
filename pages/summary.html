@@ -102,8 +102,18 @@
                 <li>\(h\): the height of the tether guide above the ground.</li>
                 <li>\(x\): the horizontal position of the car.</li>
                 <li>\(D\): the length of the tether.</li>
-                <li>\(L\): the distance between the front and rear wheels.</li>
+                <li>\(L\): the distance between the front and rear guides.</li>
             </ul>
+            We initially modeled the tether guide resistance force as a function of the car's position, though, as we graphed the force, it turned out that we could approximate it as a constant force.
+            Even though we approximate the force, we still could use the initial model to understand what reduces the force due to the car's tether guide position.
+            \[f(x) = (\frac{1}{\sqrt{x^2 + h^2}} + \frac{1}{\sqrt{(D - x - L)^2 + h^2}}) \propto N\]
+            When thinking about \(L\), the distance between the front and rear guides,we can say that as \(L\) decreases, the tether guide resistance force also decreases.
+            \[\frac{\partial f}{\partial L} = \frac{D - x - L}{((D - x - L)^2 + h^2)^{3/2}} > 0 \qquad(D - x - L > 0)\]
+            Also when thinking about \(h\), the height of the tether guide above the ground, we can say that as \(h\) decreases, the tether guide resistance force also decreases.
+            \[g(z, h) = \frac{h}{\sqrt{z^2 + h^2}}\]
+            \[\frac{\partial g}{\partial h} = \frac{z^2}{(z^2 + h^2)^{3/2}} > 0 \qquad(z > 0)\]
+            \[\frac{\partial f}{\partial h} = \frac{\partial g(x, h)}{\partial h} + \frac{\partial g(D - x - L, h)}{\partial h} \ge 0\]
+            From these two partial derivatives, we could say that we should decrease \( L \) and \( h \) to reduce the tether guide resistance force.
         </p>
         <h2>Mass of the Car</h2>
         <p>

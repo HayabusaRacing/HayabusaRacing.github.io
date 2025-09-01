@@ -2,7 +2,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-T = 30
+T = 19.6
 D = 25
 L = 0.150
 h = 0.003
