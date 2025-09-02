@@ -18,8 +18,62 @@
 
     <main class="container">
         <a href="../index.html">return to index</a>
-        <h1>Velocity Under Constant Force with Air Drag</h1>
-        <div id="plot" style="width: 100%; height: 500px;"></div>
+        <h1>Vehicle Dynamics Analysis</h1>
+        
+        <p>ETA at 20m: <code id="eta">-1</code>ms</p>
+        
+        <!-- Force Performance Summary -->
+        <article>
+            <h2>Force Performance Summary</h2>
+            <div class="grid">
+                <div>
+                    <h3>Thrust Force</h3>
+                    <p>Peak: <code id="thrust-peak">0</code> N</p>
+                    <p>Total Impulse: <code id="thrust-impulse">0</code> N⋅s</p>
+                    <p>Avg during burn: <code id="thrust-avg">0</code> N</p>
+                </div>
+                <div>
+                    <h3>Drag Force</h3>
+                    <p>Peak: <code id="drag-peak">0</code> N</p>
+                    <p>At max velocity: <code id="drag-max-v">0</code> N</p>
+                    <p>Energy lost: <code id="drag-energy">0</code> J</p>
+                </div>
+                <div>
+                    <h3>Bearing Friction</h3>
+                    <p>Constant: <code id="bearing-force">0</code> N</p>
+                    <p>Energy lost: <code id="bearing-energy">0</code> J</p>
+                    <p>Distance impact: <code id="bearing-impact">0</code> m</p>
+                </div>
+                <div>
+                    <h3>Tether Force</h3>
+                    <p>Constant: <code id="tether-force">0</code> N</p>
+                    <p>Energy lost: <code id="tether-energy">0</code> J</p>
+                    <p>Distance impact: <code id="tether-impact">0</code> m</p>
+                </div>
+            </div>
+        </article>
+        
+        <div class="grid">
+            <div>
+                <h2>Velocity vs Time</h2>
+                <div id="velocity-plot" style="width: 100%; height: 400px;"></div>
+            </div>
+            <div>
+                <h2>Force Components vs Time</h2>
+                <div id="force-plot" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+        
+        <div class="grid" style="margin-top: 2rem;">
+            <div>
+                <h2>Displacement vs Time</h2>
+                <div id="displacement-plot" style="width: 100%; height: 400px;"></div>
+            </div>
+            <div>
+                <h2>Mass Analysis vs Time</h2>
+                <div id="mass-plot" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
     </main>
 
     <footer id="footer" class="container"></footer>

@@ -1,0 +1,608 @@
+{
+  "description": "Thrust decay data with integrated values - Hayabusa Racing",
+  "units": {
+    "time": "milliseconds",
+    "thrust": "Newtons",
+    "integrated_thrust": "Newton-seconds (impulse)"
+  },
+  "sampling_rate": "10ms intervals",
+  "total_duration_ms": 1180,
+  "total_impulse": 2.1645375000000002,
+  "data": [
+    {
+      "time_ms": 0,
+      "thrust_N": 3.725,
+      "integrated_thrust_Ns": 0.0
+    },
+    {
+      "time_ms": 10,
+      "thrust_N": 3.975,
+      "integrated_thrust_Ns": 0.0385
+    },
+    {
+      "time_ms": 20,
+      "thrust_N": 4.275,
+      "integrated_thrust_Ns": 0.07975
+    },
+    {
+      "time_ms": 30,
+      "thrust_N": 4.625,
+      "integrated_thrust_Ns": 0.12425
+    },
+    {
+      "time_ms": 40,
+      "thrust_N": 4.95,
+      "integrated_thrust_Ns": 0.172125
+    },
+    {
+      "time_ms": 50,
+      "thrust_N": 5.225,
+      "integrated_thrust_Ns": 0.223
+    },
+    {
+      "time_ms": 60,
+      "thrust_N": 5.45,
+      "integrated_thrust_Ns": 0.27637500000000004
+    },
+    {
+      "time_ms": 70,
+      "thrust_N": 5.525,
+      "integrated_thrust_Ns": 0.33125000000000004
+    },
+    {
+      "time_ms": 80,
+      "thrust_N": 5.4,
+      "integrated_thrust_Ns": 0.3858750000000001
+    },
+    {
+      "time_ms": 90,
+      "thrust_N": 5.225,
+      "integrated_thrust_Ns": 0.43900000000000006
+    },
+    {
+      "time_ms": 100,
+      "thrust_N": 5.05,
+      "integrated_thrust_Ns": 0.49037500000000006
+    },
+    {
+      "time_ms": 110,
+      "thrust_N": 4.995,
+      "integrated_thrust_Ns": 0.5406000000000001
+    },
+    {
+      "time_ms": 120,
+      "thrust_N": 4.89,
+      "integrated_thrust_Ns": 0.590025
+    },
+    {
+      "time_ms": 130,
+      "thrust_N": 4.6625,
+      "integrated_thrust_Ns": 0.6377875000000001
+    },
+    {
+      "time_ms": 140,
+      "thrust_N": 4.5525,
+      "integrated_thrust_Ns": 0.6838625
+    },
+    {
+      "time_ms": 150,
+      "thrust_N": 4.5575,
+      "integrated_thrust_Ns": 0.7294125
+    },
+    {
+      "time_ms": 160,
+      "thrust_N": 4.525,
+      "integrated_thrust_Ns": 0.774825
+    },
+    {
+      "time_ms": 170,
+      "thrust_N": 4.3875,
+      "integrated_thrust_Ns": 0.8193874999999999
+    },
+    {
+      "time_ms": 180,
+      "thrust_N": 4.375,
+      "integrated_thrust_Ns": 0.8632
+    },
+    {
+      "time_ms": 190,
+      "thrust_N": 4.1975,
+      "integrated_thrust_Ns": 0.9060625
+    },
+    {
+      "time_ms": 200,
+      "thrust_N": 4.11,
+      "integrated_thrust_Ns": 0.9476
+    },
+    {
+      "time_ms": 210,
+      "thrust_N": 4.04,
+      "integrated_thrust_Ns": 0.98835
+    },
+    {
+      "time_ms": 220,
+      "thrust_N": 3.99,
+      "integrated_thrust_Ns": 1.0285
+    },
+    {
+      "time_ms": 230,
+      "thrust_N": 3.85,
+      "integrated_thrust_Ns": 1.0676999999999999
+    },
+    {
+      "time_ms": 240,
+      "thrust_N": 3.765,
+      "integrated_thrust_Ns": 1.105775
+    },
+    {
+      "time_ms": 250,
+      "thrust_N": 3.6975,
+      "integrated_thrust_Ns": 1.1430875
+    },
+    {
+      "time_ms": 260,
+      "thrust_N": 3.6025,
+      "integrated_thrust_Ns": 1.1795875
+    },
+    {
+      "time_ms": 270,
+      "thrust_N": 3.5425,
+      "integrated_thrust_Ns": 1.2153125
+    },
+    {
+      "time_ms": 280,
+      "thrust_N": 3.4475,
+      "integrated_thrust_Ns": 1.2502625
+    },
+    {
+      "time_ms": 290,
+      "thrust_N": 3.3675,
+      "integrated_thrust_Ns": 1.2843375000000001
+    },
+    {
+      "time_ms": 300,
+      "thrust_N": 3.2975,
+      "integrated_thrust_Ns": 1.3176625000000002
+    },
+    {
+      "time_ms": 310,
+      "thrust_N": 3.2025,
+      "integrated_thrust_Ns": 1.3501625000000002
+    },
+    {
+      "time_ms": 320,
+      "thrust_N": 3.155,
+      "integrated_thrust_Ns": 1.3819500000000002
+    },
+    {
+      "time_ms": 330,
+      "thrust_N": 3.0875,
+      "integrated_thrust_Ns": 1.4131625000000003
+    },
+    {
+      "time_ms": 340,
+      "thrust_N": 2.9775,
+      "integrated_thrust_Ns": 1.4434875000000003
+    },
+    {
+      "time_ms": 350,
+      "thrust_N": 2.89,
+      "integrated_thrust_Ns": 1.4728250000000003
+    },
+    {
+      "time_ms": 360,
+      "thrust_N": 2.8525,
+      "integrated_thrust_Ns": 1.5015375000000002
+    },
+    {
+      "time_ms": 370,
+      "thrust_N": 2.8,
+      "integrated_thrust_Ns": 1.5298000000000003
+    },
+    {
+      "time_ms": 380,
+      "thrust_N": 2.6975,
+      "integrated_thrust_Ns": 1.5572875000000002
+    },
+    {
+      "time_ms": 390,
+      "thrust_N": 2.62,
+      "integrated_thrust_Ns": 1.5838750000000001
+    },
+    {
+      "time_ms": 400,
+      "thrust_N": 2.56,
+      "integrated_thrust_Ns": 1.6097750000000002
+    },
+    {
+      "time_ms": 410,
+      "thrust_N": 2.4725,
+      "integrated_thrust_Ns": 1.6349375000000002
+    },
+    {
+      "time_ms": 420,
+      "thrust_N": 2.385,
+      "integrated_thrust_Ns": 1.6592250000000002
+    },
+    {
+      "time_ms": 430,
+      "thrust_N": 2.345,
+      "integrated_thrust_Ns": 1.6828750000000001
+    },
+    {
+      "time_ms": 440,
+      "thrust_N": 2.2625,
+      "integrated_thrust_Ns": 1.7059125000000002
+    },
+    {
+      "time_ms": 450,
+      "thrust_N": 2.185,
+      "integrated_thrust_Ns": 1.72815
+    },
+    {
+      "time_ms": 460,
+      "thrust_N": 2.0975,
+      "integrated_thrust_Ns": 1.7495625000000001
+    },
+    {
+      "time_ms": 470,
+      "thrust_N": 2.0275,
+      "integrated_thrust_Ns": 1.7701875
+    },
+    {
+      "time_ms": 480,
+      "thrust_N": 1.96,
+      "integrated_thrust_Ns": 1.790125
+    },
+    {
+      "time_ms": 490,
+      "thrust_N": 1.88,
+      "integrated_thrust_Ns": 1.809325
+    },
+    {
+      "time_ms": 500,
+      "thrust_N": 1.705,
+      "integrated_thrust_Ns": 1.82725
+    },
+    {
+      "time_ms": 510,
+      "thrust_N": 1.82,
+      "integrated_thrust_Ns": 1.844875
+    },
+    {
+      "time_ms": 520,
+      "thrust_N": 1.6,
+      "integrated_thrust_Ns": 1.861975
+    },
+    {
+      "time_ms": 530,
+      "thrust_N": 1.515,
+      "integrated_thrust_Ns": 1.8775499999999998
+    },
+    {
+      "time_ms": 540,
+      "thrust_N": 1.475,
+      "integrated_thrust_Ns": 1.8924999999999998
+    },
+    {
+      "time_ms": 550,
+      "thrust_N": 1.4025,
+      "integrated_thrust_Ns": 1.9068874999999998
+    },
+    {
+      "time_ms": 560,
+      "thrust_N": 1.3625,
+      "integrated_thrust_Ns": 1.9207124999999998
+    },
+    {
+      "time_ms": 570,
+      "thrust_N": 1.31,
+      "integrated_thrust_Ns": 1.9340749999999998
+    },
+    {
+      "time_ms": 580,
+      "thrust_N": 1.225,
+      "integrated_thrust_Ns": 1.9467499999999998
+    },
+    {
+      "time_ms": 590,
+      "thrust_N": 1.1825,
+      "integrated_thrust_Ns": 1.9587874999999997
+    },
+    {
+      "time_ms": 600,
+      "thrust_N": 1.1475,
+      "integrated_thrust_Ns": 1.9704374999999996
+    },
+    {
+      "time_ms": 610,
+      "thrust_N": 1.1075,
+      "integrated_thrust_Ns": 1.9817124999999995
+    },
+    {
+      "time_ms": 620,
+      "thrust_N": 1.025,
+      "integrated_thrust_Ns": 1.9923749999999996
+    },
+    {
+      "time_ms": 630,
+      "thrust_N": 1.0175,
+      "integrated_thrust_Ns": 2.0025874999999997
+    },
+    {
+      "time_ms": 640,
+      "thrust_N": 0.955,
+      "integrated_thrust_Ns": 2.01245
+    },
+    {
+      "time_ms": 650,
+      "thrust_N": 0.9025,
+      "integrated_thrust_Ns": 2.0217375
+    },
+    {
+      "time_ms": 660,
+      "thrust_N": 0.875,
+      "integrated_thrust_Ns": 2.030625
+    },
+    {
+      "time_ms": 670,
+      "thrust_N": 0.83,
+      "integrated_thrust_Ns": 2.0391500000000002
+    },
+    {
+      "time_ms": 680,
+      "thrust_N": 0.7775,
+      "integrated_thrust_Ns": 2.0471875
+    },
+    {
+      "time_ms": 690,
+      "thrust_N": 0.74,
+      "integrated_thrust_Ns": 2.0547750000000002
+    },
+    {
+      "time_ms": 700,
+      "thrust_N": 0.6975,
+      "integrated_thrust_Ns": 2.0619625000000004
+    },
+    {
+      "time_ms": 710,
+      "thrust_N": 0.6525,
+      "integrated_thrust_Ns": 2.0687125
+    },
+    {
+      "time_ms": 720,
+      "thrust_N": 0.6,
+      "integrated_thrust_Ns": 2.0749750000000002
+    },
+    {
+      "time_ms": 730,
+      "thrust_N": 0.56,
+      "integrated_thrust_Ns": 2.080775
+    },
+    {
+      "time_ms": 740,
+      "thrust_N": 0.51,
+      "integrated_thrust_Ns": 2.086125
+    },
+    {
+      "time_ms": 750,
+      "thrust_N": 0.46,
+      "integrated_thrust_Ns": 2.090975
+    },
+    {
+      "time_ms": 760,
+      "thrust_N": 0.4225,
+      "integrated_thrust_Ns": 2.0953874999999997
+    },
+    {
+      "time_ms": 770,
+      "thrust_N": 0.395,
+      "integrated_thrust_Ns": 2.0994749999999995
+    },
+    {
+      "time_ms": 780,
+      "thrust_N": 0.3775,
+      "integrated_thrust_Ns": 2.1033374999999994
+    },
+    {
+      "time_ms": 790,
+      "thrust_N": 0.3575,
+      "integrated_thrust_Ns": 2.1070124999999993
+    },
+    {
+      "time_ms": 800,
+      "thrust_N": 0.3475,
+      "integrated_thrust_Ns": 2.110537499999999
+    },
+    {
+      "time_ms": 810,
+      "thrust_N": 0.315,
+      "integrated_thrust_Ns": 2.113849999999999
+    },
+    {
+      "time_ms": 820,
+      "thrust_N": 0.2825,
+      "integrated_thrust_Ns": 2.116837499999999
+    },
+    {
+      "time_ms": 830,
+      "thrust_N": 0.245,
+      "integrated_thrust_Ns": 2.119474999999999
+    },
+    {
+      "time_ms": 840,
+      "thrust_N": 0.2325,
+      "integrated_thrust_Ns": 2.1218624999999993
+    },
+    {
+      "time_ms": 850,
+      "thrust_N": 0.2175,
+      "integrated_thrust_Ns": 2.1241124999999994
+    },
+    {
+      "time_ms": 860,
+      "thrust_N": 0.205,
+      "integrated_thrust_Ns": 2.1262249999999994
+    },
+    {
+      "time_ms": 870,
+      "thrust_N": 0.2025,
+      "integrated_thrust_Ns": 2.1282624999999995
+    },
+    {
+      "time_ms": 880,
+      "thrust_N": 0.2,
+      "integrated_thrust_Ns": 2.1302749999999997
+    },
+    {
+      "time_ms": 890,
+      "thrust_N": 0.19,
+      "integrated_thrust_Ns": 2.1322249999999996
+    },
+    {
+      "time_ms": 900,
+      "thrust_N": 0.18,
+      "integrated_thrust_Ns": 2.1340749999999997
+    },
+    {
+      "time_ms": 910,
+      "thrust_N": 0.17625,
+      "integrated_thrust_Ns": 2.13585625
+    },
+    {
+      "time_ms": 920,
+      "thrust_N": 0.165,
+      "integrated_thrust_Ns": 2.1375624999999996
+    },
+    {
+      "time_ms": 930,
+      "thrust_N": 0.175,
+      "integrated_thrust_Ns": 2.1392624999999996
+    },
+    {
+      "time_ms": 940,
+      "thrust_N": 0.1675,
+      "integrated_thrust_Ns": 2.1409749999999996
+    },
+    {
+      "time_ms": 950,
+      "thrust_N": 0.1475,
+      "integrated_thrust_Ns": 2.1425499999999995
+    },
+    {
+      "time_ms": 960,
+      "thrust_N": 0.14,
+      "integrated_thrust_Ns": 2.1439874999999997
+    },
+    {
+      "time_ms": 970,
+      "thrust_N": 0.1375,
+      "integrated_thrust_Ns": 2.1453749999999996
+    },
+    {
+      "time_ms": 980,
+      "thrust_N": 0.15,
+      "integrated_thrust_Ns": 2.1468125
+    },
+    {
+      "time_ms": 990,
+      "thrust_N": 0.15,
+      "integrated_thrust_Ns": 2.1483125
+    },
+    {
+      "time_ms": 1000,
+      "thrust_N": 0.1475,
+      "integrated_thrust_Ns": 2.1498
+    },
+    {
+      "time_ms": 1010,
+      "thrust_N": 0.13,
+      "integrated_thrust_Ns": 2.1511875
+    },
+    {
+      "time_ms": 1020,
+      "thrust_N": 0.13,
+      "integrated_thrust_Ns": 2.1524875
+    },
+    {
+      "time_ms": 1030,
+      "thrust_N": 0.14,
+      "integrated_thrust_Ns": 2.1538375
+    },
+    {
+      "time_ms": 1040,
+      "thrust_N": 0.135,
+      "integrated_thrust_Ns": 2.1552124999999998
+    },
+    {
+      "time_ms": 1050,
+      "thrust_N": 0.1275,
+      "integrated_thrust_Ns": 2.156525
+    },
+    {
+      "time_ms": 1060,
+      "thrust_N": 0.1225,
+      "integrated_thrust_Ns": 2.157775
+    },
+    {
+      "time_ms": 1070,
+      "thrust_N": 0.115,
+      "integrated_thrust_Ns": 2.1589625
+    },
+    {
+      "time_ms": 1080,
+      "thrust_N": 0.0975,
+      "integrated_thrust_Ns": 2.160025
+    },
+    {
+      "time_ms": 1090,
+      "thrust_N": 0.085,
+      "integrated_thrust_Ns": 2.1609375
+    },
+    {
+      "time_ms": 1100,
+      "thrust_N": 0.075,
+      "integrated_thrust_Ns": 2.1617375
+    },
+    {
+      "time_ms": 1110,
+      "thrust_N": 0.0725,
+      "integrated_thrust_Ns": 2.162475
+    },
+    {
+      "time_ms": 1120,
+      "thrust_N": 0.065,
+      "integrated_thrust_Ns": 2.1631625000000003
+    },
+    {
+      "time_ms": 1130,
+      "thrust_N": 0.0425,
+      "integrated_thrust_Ns": 2.1637000000000004
+    },
+    {
+      "time_ms": 1140,
+      "thrust_N": 0.0325,
+      "integrated_thrust_Ns": 2.1640750000000004
+    },
+    {
+      "time_ms": 1150,
+      "thrust_N": 0.0175,
+      "integrated_thrust_Ns": 2.1643250000000003
+    },
+    {
+      "time_ms": 1160,
+      "thrust_N": 0.0125,
+      "integrated_thrust_Ns": 2.1644750000000004
+    },
+    {
+      "time_ms": 1170,
+      "thrust_N": 0.0,
+      "integrated_thrust_Ns": 2.1645375000000002
+    },
+    {
+      "time_ms": 1180,
+      "thrust_N": 0.0,
+      "integrated_thrust_Ns": 2.1645375000000002
+    }
+  ]
+}
