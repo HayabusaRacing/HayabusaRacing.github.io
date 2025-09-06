@@ -102,6 +102,127 @@ def save_average_to_json(data, filename='thrust_average.json'):
     
     return json_data
 
+def analyze_data_validity(data):
+    """Comprehensive statistical analysis for data validation"""
+    print("\n" + "="*60)
+    print("THRUST DATA VALIDITY ANALYSIS - HAYABUSA RACING")
+    print("="*60)
+    
+    attempts = ['Attempt1', 'Attempt2', 'Attempt3', 'Attempt4']
+    
+    # 1. Calculate key metrics for each attempt
+    metrics = {}
+    for attempt in attempts:
+        peak = data[attempt].max()
+        total_impulse = np.trapz(data[attempt].values, dx=0.01)  # Integration for impulse
+        mean_thrust = data[attempt].mean()
+        std_thrust = data[attempt].std()
+        
+        metrics[attempt] = {
+            'peak_thrust': peak,
+            'total_impulse': total_impulse,
+            'mean_thrust': mean_thrust,
+            'std_thrust': std_thrust
+        }
+    
+    # 2. Calculate consistency metrics
+    peak_thrusts = [metrics[att]['peak_thrust'] for att in attempts]
+    impulses = [metrics[att]['total_impulse'] for att in attempts]
+    mean_thrusts = [metrics[att]['mean_thrust'] for att in attempts]
+    
+    peak_cv = (np.std(peak_thrusts) / np.mean(peak_thrusts)) * 100  # Coefficient of variation
+    impulse_cv = (np.std(impulses) / np.mean(impulses)) * 100
+    mean_cv = (np.std(mean_thrusts) / np.mean(mean_thrusts)) * 100
+    
+    # 3. Print detailed analysis
+    print("1. INDIVIDUAL ATTEMPT PERFORMANCE:")
+    print("-" * 40)
+    for i, attempt in enumerate(attempts, 1):
+        m = metrics[attempt]
+        print(f"Attempt {i}:")
+        print(f"  Peak Thrust:    {m['peak_thrust']:.3f} N")
+        print(f"  Total Impulse:  {m['total_impulse']:.3f} N·s")
+        print(f"  Mean Thrust:    {m['mean_thrust']:.3f} N")
+        print(f"  Thrust StdDev:  {m['std_thrust']:.3f} N")
+        print()
+    
+    print("2. CONSISTENCY ANALYSIS:")
+    print("-" * 40)
+    print(f"Peak Thrust Variation:")
+    print(f"  Range: {min(peak_thrusts):.3f} - {max(peak_thrusts):.3f} N")
+    print(f"  Coefficient of Variation: {peak_cv:.2f}%")
+    print(f"  Assessment: {'EXCELLENT' if peak_cv < 5 else 'GOOD' if peak_cv < 10 else 'ACCEPTABLE' if peak_cv < 15 else 'POOR'}")
+    print()
+    
+    print(f"Total Impulse Variation:")
+    print(f"  Range: {min(impulses):.3f} - {max(impulses):.3f} N·s")
+    print(f"  Coefficient of Variation: {impulse_cv:.2f}%")
+    print(f"  Assessment: {'EXCELLENT' if impulse_cv < 5 else 'GOOD' if impulse_cv < 10 else 'ACCEPTABLE' if impulse_cv < 15 else 'POOR'}")
+    print()
+    
+    print(f"Mean Thrust Variation:")
+    print(f"  Range: {min(mean_thrusts):.3f} - {max(mean_thrusts):.3f} N")
+    print(f"  Coefficient of Variation: {mean_cv:.2f}%")
+    print(f"  Assessment: {'EXCELLENT' if mean_cv < 5 else 'GOOD' if mean_cv < 10 else 'ACCEPTABLE' if mean_cv < 15 else 'POOR'}")
+    print()
+    
+    # 4. Cross-correlation analysis
+    correlations = []
+    for i in range(len(attempts)):
+        for j in range(i+1, len(attempts)):
+            corr = np.corrcoef(data[attempts[i]], data[attempts[j]])[0,1]
+            correlations.append(corr)
+            print(f"Correlation {attempts[i]} vs {attempts[j]}: {corr:.4f}")
+    
+    avg_correlation = np.mean(correlations)
+    print(f"\nAverage Inter-Attempt Correlation: {avg_correlation:.4f}")
+    print(f"Correlation Assessment: {'EXCELLENT' if avg_correlation > 0.95 else 'GOOD' if avg_correlation > 0.90 else 'ACCEPTABLE' if avg_correlation > 0.80 else 'POOR'}")
+    
+    # 5. Overall data validity assessment
+    print("\n3. OVERALL DATA VALIDITY ASSESSMENT:")
+    print("-" * 40)
+    
+    validity_score = 0
+    if peak_cv < 10: validity_score += 1
+    if impulse_cv < 10: validity_score += 1
+    if mean_cv < 10: validity_score += 1
+    if avg_correlation > 0.90: validity_score += 1
+    
+    if validity_score == 4:
+        assessment = "HIGHLY VALID - Excellent repeatability"
+    elif validity_score == 3:
+        assessment = "VALID - Good repeatability with minor variations"
+    elif validity_score == 2:
+        assessment = "MODERATELY VALID - Acceptable with some concerns"
+    else:
+        assessment = "QUESTIONABLE - Poor repeatability, review test conditions"
+    
+    print(f"Validity Score: {validity_score}/4")
+    print(f"Assessment: {assessment}")
+    
+    # 6. Recommendations
+    print("\n4. RECOMMENDATIONS:")
+    print("-" * 40)
+    if validity_score >= 3:
+        print("✓ Data shows good consistency between attempts")
+        print("✓ Results are reliable for analysis and reporting")
+        print("✓ Test methodology appears sound")
+    else:
+        print("⚠ Consider reviewing test setup and conditions")
+        print("⚠ May need additional test runs for better statistics")
+        print("⚠ Check for external factors affecting measurements")
+    
+    print("="*60)
+    
+    return {
+        'peak_cv': peak_cv,
+        'impulse_cv': impulse_cv,
+        'mean_cv': mean_cv,
+        'avg_correlation': avg_correlation,
+        'validity_score': validity_score,
+        'assessment': assessment
+    }
+
 def print_statistics(data):
     """Print key statistics about the thrust data"""
     print("\n" + "="*50)
@@ -141,6 +262,9 @@ def main():
         
         # Print statistics
         print_statistics(data)
+        
+        # Perform data validity analysis
+        validity_results = analyze_data_validity(data)
         
         # Save average data to JSON
         print("\nSaving average thrust data to JSON...")
