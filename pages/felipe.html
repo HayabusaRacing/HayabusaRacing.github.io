@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Cup</title>
+<style>
+:root {
+  --delphian: #8B2233;
+  --isthmian: #D44230;
+  --oldhundred: #1E4080;
+  --gold: #C9A227;
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --border: #EAEAEA;
+  --text: #0A0A0A;
+  --muted: #6B7280;
+  --subtle: #9CA3AF;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.06);
+  color-scheme: light;
+}
+:root.dark {
+  --delphian: #C73E54;
+  --isthmian: #E8553F;
+  --oldhundred: #3A6BC5;
+  --bg: #0A0A0B;
+  --surface: #18181B;
+  --border: #27272A;
+  --text: #FAFAFA;
+  --muted: #A1A1AA;
+  --subtle: #71717A;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.4);
+  color-scheme: dark;
+}
+html { transition: background .25s ease, color .25s ease; }
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg); color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.011em;
+}
+.app { max-width: 1100px; margin: 0 auto; padding: 48px 32px 96px; }
+
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 56px; gap: 16px; flex-wrap: wrap;
+}
+.wordmark { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+.wordmark-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--delphian) 0%, var(--isthmian) 50%, var(--oldhundred) 100%);
+}
+.nav {
+  display: flex; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 999px; padding: 4px; box-shadow: var(--shadow-sm); overflow-x: auto;
+}
+.nav-btn {
+  border: none; background: transparent; padding: 8px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer;
+  transition: all .2s; white-space: nowrap; font-family: inherit;
+}
+.nav-btn:hover { color: var(--text); }
+.nav-btn.active { background: var(--text); color: var(--bg); }
+
+.page { display: none; animation: fadeUp .4s cubic-bezier(.16,1,.3,1); }
+.page.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.title { font-size: 56px; font-weight: 700; letter-spacing: -0.035em; margin: 0 0 8px; line-height: 1.05; }
+.subtitle { font-size: 18px; color: var(--muted); margin: 0 0 48px; font-weight: 400; }
+
+.dominance { margin-bottom: 56px; }
+.dom-label {
+  display: flex; justify-content: space-between;
+  font-size: 12px; font-weight: 500; color: var(--subtle);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 12px;
+}
+.dom-bar { display: flex; height: 12px; border-radius: 999px; overflow: hidden; background: var(--border); }
+.dom-seg { transition: flex-grow 1s cubic-bezier(.16,1,.3,1); min-width: 2px; }
+.dom-seg.delphian { background: var(--delphian); }
+.dom-seg.isthmian { background: var(--isthmian); }
+.dom-seg.oldhundred { background: var(--oldhundred); }
+
+.houses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 64px; }
+@media (max-width: 768px) {
+  .houses { grid-template-columns: 1fr; }
+  .title { font-size: 40px; }
+}
+
+.house {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 28px;
+  padding: 28px; position: relative; overflow: hidden;
+  transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s;
+}
+.house::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+  background: var(--house-c); opacity: 0; transition: opacity .3s;
+}
+.house:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.house:hover::before { opacity: 1; }
+.house.delphian { --house-c: var(--delphian); }
+.house.isthmian { --house-c: var(--isthmian); }
+.house.oldhundred { --house-c: var(--oldhundred); }
+
+.house-icon {
+  position: absolute; top: 28px; right: 28px;
+  width: 36px; height: 36px; color: var(--house-c); opacity: .4;
+}
+
+.house-rank {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--house-c); color: white;
+  font-size: 13px; font-weight: 700; margin-bottom: 20px;
+}
+.house-rank.leader {
+  background: var(--gold); color: white;
+  box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.15);
+}
+.house-rank.leader svg { width: 14px; height: 14px; fill: white; }
+
+.house-name {
+  font-size: 14px; font-weight: 500; color: var(--muted);
+  margin: 0 0 4px; text-transform: uppercase; letter-spacing: .08em;
+}
+.house-score {
+  font-size: 64px; font-weight: 700; letter-spacing: -0.04em;
+  color: var(--text); font-variant-numeric: tabular-nums;
+  line-height: 1; margin: 0;
+  display: flex; align-items: baseline; gap: 8px;
+}
+.house-score-unit { font-size: 16px; font-weight: 500; color: var(--subtle); }
+.house-members {
+  margin-top: 20px; padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px; color: var(--muted);
+}
+
+.section-title {
+  font-size: 24px; font-weight: 600; letter-spacing: -0.02em;
+  margin: 0 0 24px; display: flex; justify-content: space-between; align-items: baseline;
+}
+.section-title .count { font-size: 14px; font-weight: 500; color: var(--muted); }
+
+.student-list {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+}
+.student-row {
+  display: grid; grid-template-columns: 32px 1fr auto auto;
+  gap: 16px; align-items: center; padding: 16px 24px;
+  border-bottom: 1px solid var(--border); transition: background .15s;
+}
+.student-row:last-child { border-bottom: none; }
+.student-row:hover { background: var(--bg); }
+.student-rank { font-size: 13px; font-weight: 500; color: var(--subtle); font-variant-numeric: tabular-nums; }
+.student-name { font-size: 15px; font-weight: 500; }
+.student-club {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  padding: 4px 10px; border-radius: 999px; background: var(--bg);
+}
+.club-dot { width: 6px; height: 6px; border-radius: 50%; }
+.club-dot.delphian { background: var(--delphian); }
+.club-dot.isthmian { background: var(--isthmian); }
+.club-dot.oldhundred { background: var(--oldhundred); }
+.student-points { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pt-unit { color: var(--subtle); font-weight: 400; font-size: 13px; }
+
+.form-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 28px; padding: 40px; max-width: 640px;
+}
+.form-group { margin-bottom: 24px; }
+.form-label {
+  display: block; font-size: 13px; font-weight: 500; color: var(--muted);
+  margin-bottom: 8px;
+}
+.form-control {
+  width: 100%; padding: 12px 16px; font-size: 15px; font-family: inherit;
+  border: 1px solid var(--border); border-radius: 12px;
+  background: var(--surface); color: var(--text);
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-control:focus {
+  outline: none; border-color: var(--text);
+  box-shadow: 0 0 0 4px rgba(10,10,10,.05);
+}
+select.form-control {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236B7280' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px;
+}
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 20px; font-size: 14px; font-weight: 500; font-family: inherit;
+  border: none; border-radius: 12px; cursor: pointer; transition: all .15s;
+}
+.btn-primary { background: var(--text); color: var(--bg); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg); }
+.btn-danger { background: transparent; color: #B91C1C; border: 1px solid rgba(185, 28, 28, 0.3); }
+.btn-danger:hover { background: rgba(185, 28, 28, 0.08); border-color: #B91C1C; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn-row .btn { margin-left: 0; }
+
+.message {
+  margin-top: 16px; padding: 12px 16px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+  background: var(--bg); border: 1px solid var(--border);
+  animation: slideIn .3s cubic-bezier(.16,1,.3,1);
+}
+.message.success { background: rgba(34,197,94,.08); border-color: rgba(34,197,94,.2); color: #15803D; }
+.message.error { background: rgba(220,53,69,.08); border-color: rgba(220,53,69,.2); color: #B91C1C; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+.filter-row { display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.filter-row .grow { flex: 1 1 240px; min-width: 200px; }
+.select-all {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px; background: var(--bg); border-radius: 12px;
+  margin-bottom: 12px; font-size: 13px; font-weight: 500; color: var(--muted);
+  cursor: pointer;
+}
+.select-all input { cursor: pointer; accent-color: var(--text); }
+.check-list { max-height: 360px; overflow-y: auto; border: 1px solid var(--border); border-radius: 12px; }
+.check-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background .15s;
+}
+.check-row:last-child { border-bottom: none; }
+.check-row:hover { background: var(--bg); }
+.check-row label { display: flex; align-items: center; gap: 12px; cursor: pointer; flex: 1; font-size: 14px; }
+.check-row input { accent-color: var(--text); cursor: pointer; }
+.info { font-size: 12px; color: var(--subtle); margin-bottom: 8px; }
+.empty { padding: 24px; text-align: center; color: var(--subtle); font-size: 14px; }
+
+@keyframes pulseScore { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+.pulse { animation: pulseScore .5s cubic-bezier(.16,1,.3,1); }
+
+.club-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 640px) { .club-picker { grid-template-columns: 1fr; } }
+.club-option {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  padding: 20px; border: 1.5px solid var(--border); border-radius: 16px;
+  background: var(--surface); cursor: pointer; transition: all .2s;
+  font-family: inherit; text-align: left; color: var(--text);
+}
+.club-option:hover { border-color: var(--text); transform: translateY(-1px); }
+.club-option.selected {
+  border-color: var(--house-c);
+  background: color-mix(in srgb, var(--house-c) 6%, white);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--house-c) 18%, transparent);
+}
+.club-option.delphian { --house-c: var(--delphian); }
+.club-option.isthmian { --house-c: var(--isthmian); }
+.club-option.oldhundred { --house-c: var(--oldhundred); }
+.club-option-name { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+.club-option-name .club-dot { width: 8px; height: 8px; }
+.club-option-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ── Confetti ── */
+.confetti-piece {
+  position: fixed; width: 8px; height: 14px; pointer-events: none;
+  z-index: 9999; will-change: transform, opacity;
+  border-radius: 1px;
+}
+
+/* ── Crest wordmark ── */
+.crest {
+  width: 24px; height: 27px; flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.08));
+}
+
+/* ── Theme toggle ── */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 50%;
+  cursor: pointer; color: var(--muted); transition: all .2s;
+  margin-left: 8px;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--text); }
+.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+:root.dark .theme-toggle .icon-sun { display: block; }
+:root.dark .theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sound-off { display: none; }
+.theme-toggle .icon-sound-on { display: block; }
+.theme-toggle.muted .icon-sound-off { display: block; color: var(--isthmian); }
+.theme-toggle.muted .icon-sound-on { display: none; }
+
+/* ── Recent activity ── */
+.btn-text {
+  background: none; border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--muted); padding: 4px 0;
+  transition: color .15s;
+}
+.btn-text:hover { color: var(--isthmian); }
+.activity-list {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
+}
+.activity-row {
+  display: grid; grid-template-columns: auto 1fr auto;
+  gap: 12px; align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  animation: slideIn .35s cubic-bezier(.16,1,.3,1);
+}
+.activity-row:last-child { border-bottom: none; }
+.activity-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.activity-text { font-size: 14px; font-weight: 500; }
+.activity-text .a-club { font-weight: 400; color: var(--muted); margin-left: 6px; }
+.activity-time { font-size: 12px; color: var(--subtle); font-variant-numeric: tabular-nums; }
+.activity-empty {
+  padding: 24px; text-align: center; font-size: 14px; color: var(--subtle);
+}
+.activity-row .activity-type {
+  font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--bg); color: var(--muted);
+  margin-left: 8px;
+}
+
+/* ── NEW LEADER banner ── */
+.leader-banner {
+  position: fixed; top: 32px; left: 50%; transform: translateX(-50%) translateY(-20px);
+  z-index: 9998; opacity: 0; pointer-events: none;
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 24px;
+  background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 999px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.18), 0 0 0 4px color-mix(in srgb, var(--banner-c, var(--gold)) 20%, transparent);
+  font-size: 15px; font-weight: 600; letter-spacing: -0.01em;
+  transition: opacity .35s cubic-bezier(.16,1,.3,1), transform .35s cubic-bezier(.16,1,.3,1);
+}
+.leader-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.leader-banner .lb-dot {
+  width: 10px; height: 10px; border-radius: 50%; background: var(--banner-c, var(--gold));
+}
+.leader-banner .lb-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--banner-c, var(--gold));
+}
+@media (max-width: 640px) {
+  .leader-banner { font-size: 13px; padding: 12px 18px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="wordmark">
+      <svg class="crest" viewBox="0 0 28 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M2 2 H26 V15 Q26 23 14 30 Q2 23 2 15 Z" fill="#0A0A0A"/>
+        <path d="M3.5 3.5 H24.5 V15 Q24.5 21.5 14 28 Q3.5 21.5 3.5 15 Z" fill="#A8202F"/>
+        <line x1="7" y1="7" x2="21" y2="21" stroke="#F8F8F8" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="21" y1="7" x2="7" y2="21" stroke="#F8F8F8" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="5.5" y1="8.5" x2="8.5" y2="5.5" stroke="#C9A227" stroke-width="1" stroke-linecap="round"/>
+        <line x1="22.5" y1="8.5" x2="19.5" y2="5.5" stroke="#C9A227" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="7" cy="7" r="1.3" fill="#C9A227" stroke="#0A0A0A" stroke-width="0.3"/>
+        <circle cx="21" cy="7" r="1.3" fill="#C9A227" stroke="#0A0A0A" stroke-width="0.3"/>
+        <rect x="11.5" y="20" width="5" height="3.5" fill="#C9A227" stroke="#0A0A0A" stroke-width="0.4"/>
+        <line x1="14" y1="20" x2="14" y2="23.5" stroke="#0A0A0A" stroke-width="0.3"/>
+      </svg>
+      <span>Club Cup<span style="color:var(--subtle);font-weight:400;margin-left:8px;">St. Paul's School</span></span>
+    </div>
+    <div style="display:flex; align-items:center; gap:0;">
+      <nav class="nav" id="nav">
+        <button class="nav-btn active" data-tab="leaderboard">Leaderboard</button>
+        <button class="nav-btn" data-tab="add">Add Points</button>
+        <button class="nav-btn" data-tab="edit">Edit</button>
+        <button class="nav-btn" data-tab="group">Group Awards</button>
+        <button class="nav-btn" data-tab="awards">Awards</button>
+      </nav>
+      <button class="theme-toggle" id="soundToggle" aria-label="Toggle sound" title="Toggle sound">
+        <svg class="icon-sound-on" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <svg class="icon-sound-off" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="leader-banner" id="leaderBanner"></div>
+
+  <section id="leaderboard" class="page active">
+    <h1 class="title">The standings.</h1>
+    <p class="subtitle">Live scores across all three clubs.</p>
+    <div class="dominance">
+      <div class="dom-label"><span>Point share</span><span id="domTotal">No points awarded yet</span></div>
+      <div class="dom-bar" id="domBar"></div>
+    </div>
+    <div class="houses" id="houses"></div>
+
+    <h2 class="section-title">
+      <span>Recent Activity</span>
+      <button class="btn-text" id="resetBtn" title="Reset all scores">Reset all</button>
+    </h2>
+    <div class="activity-list" id="activityList">
+      <div class="activity-empty">No activity yet — award some points to get started.</div>
+    </div>
+
+    <h2 class="section-title" style="margin-top:48px;"><span>All Students</span><span class="count" id="studentCount"></span></h2>
+    <div class="student-list" id="studentList"></div>
+  </section>
+
+  <section id="add" class="page">
+    <h1 class="title">Award a student.</h1>
+    <p class="subtitle">Pick a student and the award they earned.</p>
+    <div class="form-card">
+      <div class="form-group">
+        <label class="form-label" for="studentSelect">Student</label>
+        <select id="studentSelect" class="form-control"><option value="">— Choose a student —</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="awardSelect">Award</label>
+        <select id="awardSelect" class="form-control"><option value="">— Choose an award —</option></select>
+      </div>
+      <button class="btn btn-primary" id="addBtn">Add Points</button>
+      <div id="addMessage"></div>
+    </div>
+  </section>
+
+  <section id="edit" class="page">
+    <h1 class="title">Edit points.</h1>
+    <p class="subtitle">Manually adjust a student's score for corrections.</p>
+    <div class="form-card">
+      <div class="form-group">
+        <label class="form-label" for="editStudentSelect">Student</label>
+        <select id="editStudentSelect" class="form-control"><option value="">— Choose a student —</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="editPointsInput">New points</label>
+        <input type="number" id="editPointsInput" class="form-control" min="0" value="0">
+      </div>
+      <button class="btn btn-primary" id="editBtn">Update</button>
+      <div id="editMessage"></div>
+    </div>
+  </section>
+
+  <section id="group" class="page">
+    <h1 class="title">Award a club.</h1>
+    <p class="subtitle">Recognize an entire club with one tap.</p>
+    <div class="form-card">
+      <div class="form-group">
+        <label class="form-label" for="groupAwardSelect">Award</label>
+        <select id="groupAwardSelect" class="form-control"><option value="">— Choose an award —</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Club</label>
+        <div class="club-picker" id="clubPicker"></div>
+      </div>
+      <button class="btn btn-primary" id="groupBtn">Award Club</button>
+      <div id="groupMessage"></div>
+    </div>
+  </section>
+
+  <section id="awards" class="page">
+    <h1 class="title">Manage awards.</h1>
+    <p class="subtitle">Edit values, create new recognitions, or remove them.</p>
+    <div class="form-card">
+      <div class="form-group">
+        <label class="form-label" for="awardEditSelect">Award to edit</label>
+        <select id="awardEditSelect" class="form-control"><option value="">— Choose an award —</option></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="awardNameInput">Name</label>
+        <input type="text" id="awardNameInput" class="form-control" placeholder="Award name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="awardPointsInput">Points</label>
+        <input type="number" id="awardPointsInput" class="form-control" min="0" value="0">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="awardTypeSelect">Type</label>
+        <select id="awardTypeSelect" class="form-control">
+          <option value="individual">Individual — for a single student</option>
+          <option value="group">Group — for a whole club</option>
+        </select>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="updateAwardBtn">Update</button>
+        <button class="btn btn-secondary" id="newAwardBtn">Add as New</button>
+        <button class="btn btn-danger" id="deleteAwardBtn">Delete</button>
+      </div>
+      <div id="awardMessage"></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const studentsData = {"students":[
+  {"name":"Alex","club":"Delphian","individualPoint":0},
+  {"name":"Jordan","club":"Delphian","individualPoint":0},
+  {"name":"Taylor","club":"Delphian","individualPoint":0},
+  {"name":"Morgan","club":"Delphian","individualPoint":0},
+  {"name":"Casey","club":"Delphian","individualPoint":0},
+  {"name":"Riley","club":"Delphian","individualPoint":0},
+  {"name":"Jamie","club":"Delphian","individualPoint":0},
+  {"name":"Sam","club":"Isthmian","individualPoint":0},
+  {"name":"Avery","club":"Isthmian","individualPoint":0},
+  {"name":"Charlie","club":"Isthmian","individualPoint":0},
+  {"name":"Dakota","club":"Isthmian","individualPoint":0},
+  {"name":"Reese","club":"Isthmian","individualPoint":0},
+  {"name":"Skylar","club":"Isthmian","individualPoint":0},
+  {"name":"Blake","club":"Old Hundred","individualPoint":0},
+  {"name":"Emerson","club":"Old Hundred","individualPoint":0},
+  {"name":"Parker","club":"Old Hundred","individualPoint":0},
+  {"name":"Quinn","club":"Old Hundred","individualPoint":0},
+  {"name":"Peyton","club":"Old Hundred","individualPoint":0},
+  {"name":"Drew","club":"Old Hundred","individualPoint":0},
+  {"name":"Sage","club":"Old Hundred","individualPoint":0}
+]};
+
+const awardsData = {"awards":[
+  {"name":"Academic Excellence","points":10},
+  {"name":"Perfect Attendance","points":5},
+  {"name":"Leadership Award","points":15},
+  {"name":"Community Service","points":8},
+  {"name":"Sports Achievement","points":12},
+  {"name":"Creative Arts","points":10},
+  {"name":"Team Spirit","points":7},
+  {"name":"Innovation Prize","points":20},
+  {"name":"Peer Mentor","points":6},
+  {"name":"Environmental Champion","points":9}
+]};
+
+const CLUBS = {
+  "Delphian":   { key: "delphian" },
+  "Isthmian":   { key: "isthmian" },
+  "Old Hundred":{ key: "oldhundred" }
+};
+const CLUB_ORDER = ["Delphian", "Isthmian", "Old Hundred"];
+
+// Each award gets a type at runtime — group-y ones default to 'group'.
+// (We can't modify awards.json per competition rules, so we annotate in memory.)
+const DEFAULT_GROUP_AWARDS = new Set([
+  'Sports Achievement', 'Team Spirit', 'Community Service', 'Environmental Champion'
+]);
+awardsData.awards.forEach(a => {
+  if (!a.type) a.type = DEFAULT_GROUP_AWARDS.has(a.name) ? 'group' : 'individual';
+});
+
+let previousLeader = null;
+let leaderBannerTimer = null;
+
+// SVG icons for each house (drawn from school banners) — xmlns is REQUIRED for DOMParser
+const HOUSE_ICONS = {
+  "Delphian": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="14,9 20,20 8,20" stroke-width="1.7"/><path d="M7 22 C4 18 4 12 7 7" stroke-width="1.3"/><path d="M5 17 L3 16 M4 14 L2 13 M5 11 L3 10 M6 9 L5 7" stroke-width="1.1"/><path d="M21 22 C24 18 24 12 21 7" stroke-width="1.3"/><path d="M23 17 L25 16 M24 14 L26 13 M23 11 L25 10 M22 9 L23 7" stroke-width="1.1"/></svg>',
+  "Isthmian": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,5 8.5,12 1.5,12"/><polygon points="12,2 16,12 8,12"/><polygon points="19,5 22.5,12 15.5,12"/><rect x="4.5" y="12" width="1" height="3"/><rect x="11.5" y="12" width="1" height="3"/><rect x="18.5" y="12" width="1" height="3"/><rect x="2" y="15" width="20" height="1.2"/></svg>',
+  "Old Hundred": '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><polygon points="2,8 22,8 12,3"/><rect x="3" y="8.5" width="18" height="1"/><rect x="4.5" y="10" width="2" height="7"/><rect x="8.5" y="10" width="2" height="7"/><rect x="13.5" y="10" width="2" height="7"/><rect x="17.5" y="10" width="2" height="7"/><rect x="2" y="17.5" width="20" height="1.2"/></svg>'
+};
+
+// ── Tiny DOM helper ──
+function el(tag, attrs = {}, children = []) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') e.className = v;
+    else if (k === 'dataset') Object.assign(e.dataset, v);
+    else if (k === 'style') e.style.cssText = v;
+    else if (k.startsWith('on')) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v);
+  }
+  const arr = Array.isArray(children) ? children : [children];
+  for (const c of arr) {
+    if (c == null || c === false) continue;
+    e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c);
+  }
+  return e;
+}
+
+// Build small SVG element from string safely (template is OUR code, not user input)
+function svgIcon(svgString, className) {
+  const wrap = document.createElement('div');
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(svgString, 'image/svg+xml');
+  const svg = doc.documentElement;
+  if (className) svg.setAttribute('class', className);
+  return svg;
+}
+
+// ── Nav ──
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('.nav-btn');
+  if (!btn) return;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const tab = btn.dataset.tab;
+  document.getElementById(tab).classList.add('active');
+  if (tab === 'leaderboard') updateLeaderboard();
+  else if (tab === 'edit') refreshEditDropdown();
+  else if (tab === 'awards') populateAwardEditDropdown();
+  else if (tab === 'group') { refreshAwardDropdown(); renderClubPicker(); }
+});
+
+// ── Calculations ──
+function calculateScores() {
+  const scores = { 'Delphian': 0, 'Isthmian': 0, 'Old Hundred': 0 };
+  const counts = { 'Delphian': 0, 'Isthmian': 0, 'Old Hundred': 0 };
+  studentsData.students.forEach(s => { scores[s.club] += s.individualPoint; counts[s.club]++; });
+  return { scores, counts };
+}
+
+function animateCount(span, target) {
+  const start = parseInt(span.dataset.value || '0');
+  if (start === target) { span.textContent = String(target); return; }
+  const duration = 600;
+  const t0 = performance.now();
+  span.dataset.value = target;
+  const parent = span.parentElement;
+  parent.classList.remove('pulse'); void parent.offsetWidth; parent.classList.add('pulse');
+  function tick(now) {
+    const t = Math.min((now - t0) / duration, 1);
+    const eased = 1 - Math.pow(1 - t, 3);
+    span.textContent = String(Math.round(start + (target - start) * eased));
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+// ── Leaderboard ──
+function updateLeaderboard() {
+  const { scores, counts } = calculateScores();
+  const total = Object.values(scores).reduce((a, b) => a + b, 0);
+
+  // Dominance bar
+  const bar = document.getElementById('domBar');
+  bar.replaceChildren(...CLUB_ORDER.map(c => {
+    const pct = total > 0 ? (scores[c] / total) * 100 : 33.333;
+    return el('div', { class: `dom-seg ${CLUBS[c].key}`, style: `flex-grow:${pct.toFixed(2)}` });
+  }));
+  document.getElementById('domTotal').textContent = total === 0 ? 'No points awarded yet' : `${total} points awarded`;
+
+  // House cards (ranked)
+  const ranked = CLUB_ORDER
+    .map(c => ({ name: c, score: scores[c], count: counts[c] }))
+    .sort((a, b) => b.score - a.score);
+
+  // Leader-change detection — only when scores actually establish a leader
+  const currentLeader = ranked[0].score > 0 && ranked[0].score > ranked[1].score ? ranked[0].name : null;
+  checkLeaderChange(currentLeader);
+
+  const housesEl = document.getElementById('houses');
+  housesEl.replaceChildren(...ranked.map((h, i) => {
+    const isLeader = i === 0 && h.score > 0;
+    const rankBadge = el('div', { class: 'house-rank' + (isLeader ? ' leader' : '') }, [String(i + 1)]);
+
+    const scoreSpan = el('span', { dataset: { value: '0' } }, ['0']);
+    const card = el('div', { class: `house ${CLUBS[h.name].key}` }, [
+      svgIcon(HOUSE_ICONS[h.name], 'house-icon'),
+      rankBadge,
+      el('p', { class: 'house-name' }, [h.name]),
+      el('p', { class: 'house-score' }, [
+        scoreSpan,
+        el('span', { class: 'house-score-unit' }, ['pts'])
+      ]),
+      el('div', { class: 'house-members' }, [`${h.count} member${h.count === 1 ? '' : 's'}`])
+    ]);
+    // animate after mount
+    requestAnimationFrame(() => animateCount(scoreSpan, h.score));
+    return card;
+  }));
+
+  // Student list (sorted by points desc)
+  const sorted = [...studentsData.students].sort((a, b) => b.individualPoint - a.individualPoint);
+  const listEl = document.getElementById('studentList');
+  listEl.replaceChildren(...sorted.map((s, i) => el('div', { class: 'student-row' }, [
+    el('span', { class: 'student-rank' }, [String(i + 1)]),
+    el('span', { class: 'student-name' }, [s.name]),
+    el('span', { class: 'student-club' }, [
+      el('span', { class: `club-dot ${CLUBS[s.club].key}` }),
+      s.club
+    ]),
+    el('span', { class: 'student-points' }, [String(s.individualPoint), ' ', el('span', { class: 'pt-unit' }, ['pts'])])
+  ])));
+  document.getElementById('studentCount').textContent = `${sorted.length} students`;
+}
+
+// ── Dropdowns ──
+function populateDropdowns() {
+  const studentSelect = document.getElementById('studentSelect');
+  const editSel = document.getElementById('editStudentSelect');
+  const awardSel = document.getElementById('awardSelect');
+  studentsData.students.forEach((s, i) => {
+    studentSelect.appendChild(new Option(`${s.name}  ·  ${s.club}`, i));
+    editSel.appendChild(new Option(`${s.name}  ·  ${s.club}  ·  ${s.individualPoint} pts`, i));
+  });
+  awardsData.awards.forEach((a, i) => awardSel.appendChild(new Option(`${a.name}  ·  +${a.points} pts`, i)));
+}
+
+function refreshEditDropdown() {
+  const sel = document.getElementById('editStudentSelect');
+  const current = sel.value;
+  sel.replaceChildren(new Option('— Choose a student —', ''));
+  studentsData.students.forEach((s, i) =>
+    sel.appendChild(new Option(`${s.name}  ·  ${s.club}  ·  ${s.individualPoint} pts`, i)));
+  if (current) { sel.value = current; updateEditInput(); }
+}
+
+function updateEditInput() {
+  const i = document.getElementById('editStudentSelect').value;
+  if (i !== '') document.getElementById('editPointsInput').value = studentsData.students[i].individualPoint;
+}
+
+function showMessage(elId, text, kind = 'success') {
+  const container = document.getElementById(elId);
+  container.replaceChildren(el('div', { class: `message ${kind}` }, [text]));
+  setTimeout(() => container.replaceChildren(), 3000);
+}
+
+// ── Actions ──
+function addIndividualPoints(event) {
+  const si = document.getElementById('studentSelect').value;
+  const ai = document.getElementById('awardSelect').value;
+  if (si === '' || ai === '') return showMessage('addMessage', 'Please select both a student and an award.', 'error');
+  const s = studentsData.students[si], a = awardsData.awards[ai];
+  s.individualPoint += a.points;
+  showMessage('addMessage', `+${a.points} to ${s.name} — now ${s.individualPoint} pts.`);
+  addActivity(`+${a.points} to ${s.name}`, s.club, 'individual');
+  fireConfettiFrom(event?.currentTarget, CLUBS[s.club].key);
+  playDing();
+  document.getElementById('studentSelect').value = '';
+  document.getElementById('awardSelect').value = '';
+  updateLeaderboard(); refreshEditDropdown(); renderClubPicker();
+}
+
+function editIndividualPoints(event) {
+  const i = document.getElementById('editStudentSelect').value;
+  const v = parseInt(document.getElementById('editPointsInput').value);
+  if (i === '') return showMessage('editMessage', 'Please select a student.', 'error');
+  const s = studentsData.students[i];
+  const wentUp = v > s.individualPoint;
+  s.individualPoint = v;
+  showMessage('editMessage', `Updated ${s.name} to ${v} pts.`);
+  addActivity(`Set ${s.name} to ${v} pts`, s.club, 'edit');
+  if (wentUp) { fireConfettiFrom(event?.currentTarget, CLUBS[s.club].key); playDing(); }
+  refreshEditDropdown(); updateLeaderboard(); renderClubPicker();
+  document.getElementById('editStudentSelect').value = '';
+  document.getElementById('editPointsInput').value = '0';
+}
+
+function populateAwardEditDropdown() {
+  const sel = document.getElementById('awardEditSelect');
+  sel.replaceChildren(new Option('— Choose an award —', ''));
+  awardsData.awards.forEach((a, i) => {
+    const tag = a.type === 'group' ? 'Group' : 'Individual';
+    sel.appendChild(new Option(`${a.name}  ·  +${a.points} pts  ·  ${tag}`, i));
+  });
+  document.getElementById('awardNameInput').value = '';
+  document.getElementById('awardPointsInput').value = '0';
+  document.getElementById('awardTypeSelect').value = 'individual';
+  loadAwardForEdit();
+}
+
+function loadAwardForEdit() {
+  const i = document.getElementById('awardEditSelect').value;
+  if (i !== '') {
+    const a = awardsData.awards[i];
+    document.getElementById('awardNameInput').value = a.name;
+    document.getElementById('awardPointsInput').value = a.points;
+    document.getElementById('awardTypeSelect').value = a.type || 'individual';
+  } else {
+    document.getElementById('awardNameInput').value = '';
+    document.getElementById('awardPointsInput').value = '0';
+    document.getElementById('awardTypeSelect').value = 'individual';
+  }
+}
+
+function updateAward() {
+  const i = document.getElementById('awardEditSelect').value;
+  const name = document.getElementById('awardNameInput').value.trim();
+  const points = parseInt(document.getElementById('awardPointsInput').value);
+  const type = document.getElementById('awardTypeSelect').value;
+  if (i === '') return showMessage('awardMessage', 'Please select an award to update.', 'error');
+  if (!name) return showMessage('awardMessage', 'Please enter an award name.', 'error');
+  awardsData.awards[i] = { name, points, type };
+  showMessage('awardMessage', `Updated "${name}" — +${points} pts, ${type === 'group' ? 'Group' : 'Individual'}.`);
+  populateAwardEditDropdown(); refreshAwardDropdown(); renderClubPicker();
+}
+
+function addNewAward() {
+  const name = document.getElementById('awardNameInput').value.trim();
+  const points = parseInt(document.getElementById('awardPointsInput').value);
+  const type = document.getElementById('awardTypeSelect').value;
+  if (!name) return showMessage('awardMessage', 'Please enter an award name.', 'error');
+  awardsData.awards.push({ name, points, type });
+  showMessage('awardMessage', `Created "${name}" — +${points} pts, ${type === 'group' ? 'Group' : 'Individual'}.`);
+  populateAwardEditDropdown(); refreshAwardDropdown(); renderClubPicker();
+  document.getElementById('awardNameInput').value = '';
+  document.getElementById('awardPointsInput').value = '0';
+  document.getElementById('awardTypeSelect').value = 'individual';
+}
+
+function deleteAward() {
+  const i = document.getElementById('awardEditSelect').value;
+  if (i === '') return showMessage('awardMessage', 'Please select an award to delete.', 'error');
+  const removed = awardsData.awards[i];
+  if (!confirm(`Delete "${removed.name}" (+${removed.points} pts)? This cannot be undone.`)) return;
+  awardsData.awards.splice(i, 1);
+  playTone(330, 0.18, 'sawtooth');
+  showMessage('awardMessage', `Deleted "${removed.name}".`);
+  populateAwardEditDropdown(); refreshAwardDropdown(); renderClubPicker();
+}
+
+function refreshAwardDropdown() {
+  const a1 = document.getElementById('awardSelect');         // Add Points (individual only)
+  const a2 = document.getElementById('groupAwardSelect');    // Group Awards (group only)
+  a1.replaceChildren(new Option('— Choose an award —', ''));
+  a2.replaceChildren(new Option('— Choose an award —', ''));
+  awardsData.awards.forEach((a, i) => {
+    if (a.type !== 'group') a1.appendChild(new Option(`${a.name}  ·  +${a.points} pts`, i));
+    if (a.type === 'group') a2.appendChild(new Option(`${a.name}  ·  +${a.points} pts`, i));
+  });
+}
+
+let selectedClub = null;
+
+function renderClubPicker() {
+  const picker = document.getElementById('clubPicker');
+  if (!picker) return;
+  const { counts } = calculateScores();
+  picker.replaceChildren(...CLUB_ORDER.map(club => {
+    const btn = el('button', {
+      class: `club-option ${CLUBS[club].key}${selectedClub === club ? ' selected' : ''}`,
+      type: 'button',
+      dataset: { club },
+      onclick: () => { selectedClub = club; renderClubPicker(); }
+    }, [
+      el('div', { class: 'club-option-name' }, [
+        el('span', { class: `club-dot ${CLUBS[club].key}` }),
+        club
+      ]),
+      el('div', { class: 'club-option-meta' }, [`${counts[club]} member${counts[club] === 1 ? '' : 's'}`])
+    ]);
+    return btn;
+  }));
+}
+
+function addGroupPoints(event) {
+  const ai = document.getElementById('groupAwardSelect').value;
+  if (ai === '') return showMessage('groupMessage', 'Please select an award.', 'error');
+  if (!selectedClub) return showMessage('groupMessage', 'Please select a club.', 'error');
+  const a = awardsData.awards[ai];
+  const members = studentsData.students.filter(s => s.club === selectedClub);
+  // Distribute the award TOTAL across members as integers (no fractions, exact sum).
+  const base = Math.floor(a.points / members.length);
+  const remainder = a.points % members.length;
+  members.forEach((s, i) => { s.individualPoint += base + (i < remainder ? 1 : 0); });
+  showMessage('groupMessage', `${selectedClub} +${a.points} pts (split across ${members.length} members).`);
+  addActivity(`${selectedClub} +${a.points}`, selectedClub, 'group');
+  fireConfettiFrom(event?.currentTarget, CLUBS[selectedClub].key);
+  playDing();
+  selectedClub = null;
+  renderClubPicker();
+  refreshEditDropdown();
+  updateLeaderboard();
+}
+
+// ── Sound (Web Audio API — no files needed) ──
+let _audioCtx = null;
+function audioCtx() {
+  if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return _audioCtx;
+}
+let soundEnabled = localStorage.getItem('cc-sound') !== 'off';
+function playTone(freq = 880, duration = 0.18, waveform = 'sine') {
+  if (!soundEnabled) return;
+  try {
+    const ctx = audioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = waveform;
+    osc.frequency.value = freq;
+    gain.gain.value = 0.001;
+    gain.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration + 0.05);
+  } catch (e) { /* audio unavailable, skip silently */ }
+}
+function playDing() {
+  // Two-note rising chime
+  playTone(740, 0.12, 'sine');
+  setTimeout(() => playTone(988, 0.18, 'sine'), 90);
+}
+
+// ── NEW LEADER banner ──
+function showLeaderBanner(clubName) {
+  const banner = document.getElementById('leaderBanner');
+  if (!banner) return;
+  banner.style.setProperty('--banner-c', `var(--${CLUBS[clubName].key})`);
+  banner.replaceChildren(
+    el('span', { class: 'lb-dot' }),
+    el('span', { class: 'lb-tag' }, ['New Leader']),
+    el('span', {}, [clubName])
+  );
+  banner.classList.add('show');
+  if (leaderBannerTimer) clearTimeout(leaderBannerTimer);
+  leaderBannerTimer = setTimeout(() => banner.classList.remove('show'), 3000);
+  playTone(523, 0.1, 'sine');
+  setTimeout(() => playTone(659, 0.1, 'sine'), 100);
+  setTimeout(() => playTone(784, 0.22, 'sine'), 200);
+}
+
+function checkLeaderChange(currentLeader) {
+  // Only fire when leader changes BETWEEN clubs (not on initial null → club).
+  if (currentLeader && previousLeader && currentLeader !== previousLeader) {
+    showLeaderBanner(currentLeader);
+  }
+  previousLeader = currentLeader;
+}
+
+// ── Confetti ──
+const CONFETTI_COLORS = {
+  delphian:   ['#7D1F2D', '#A8202F', '#C9A227', '#FFFFFF'],
+  isthmian:   ['#C8392A', '#E04A30', '#C9A227', '#FFFFFF'],
+  oldhundred: ['#1A3A6E', '#2B5BA7', '#C9A227', '#FFFFFF'],
+  default:    ['#7D1F2D', '#C8392A', '#1A3A6E', '#C9A227']
+};
+
+function fireConfettiFrom(originEl, palette = 'default') {
+  const rect = originEl?.getBoundingClientRect();
+  const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+  const y = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
+  const colors = CONFETTI_COLORS[palette] || CONFETTI_COLORS.default;
+  const pieces = 60;
+  for (let i = 0; i < pieces; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.background = color;
+    piece.style.left = (x - 4) + 'px';
+    piece.style.top = (y - 7) + 'px';
+    piece.style.transform = 'translate(0, 0) rotate(0deg)';
+    piece.style.opacity = '1';
+    document.body.appendChild(piece);
+    const angle = (Math.random() * Math.PI) - Math.PI / 2 + (Math.random() - 0.5) * 0.6;
+    const speed = 200 + Math.random() * 300;
+    const vx = Math.cos(angle) * speed * (Math.random() > 0.5 ? 1 : -1);
+    const vy = -Math.abs(Math.sin(angle) * speed) - (150 + Math.random() * 150);
+    const rot = (Math.random() - 0.5) * 720;
+    const duration = 900 + Math.random() * 600;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const dx = vx * t;
+      const dy = vy * t + 0.5 * 1800 * t * t; // gravity
+      piece.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot * t}deg)`;
+      piece.style.opacity = String(1 - t);
+      if (t < 1) requestAnimationFrame(tick);
+      else piece.remove();
+    }
+    requestAnimationFrame(tick);
+  }
+}
+
+// ── Wire up event listeners ──
+// ── Theme toggle ──
+function initTheme() {
+  const saved = localStorage.getItem('cc-theme');
+  if (saved === 'dark') document.documentElement.classList.add('dark');
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    localStorage.setItem('cc-theme', dark ? 'dark' : 'light');
+  });
+}
+
+// ── Sound toggle ──
+function initSound() {
+  const btn = document.getElementById('soundToggle');
+  if (!soundEnabled) btn.classList.add('muted');
+  btn.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    btn.classList.toggle('muted', !soundEnabled);
+    localStorage.setItem('cc-sound', soundEnabled ? 'on' : 'off');
+    if (soundEnabled) playTone(660, 0.12, 'sine');
+  });
+}
+
+// ── Recent activity ──
+let recentActivity = []; // {text, club, type, time}
+const MAX_ACTIVITY = 6;
+function addActivity(text, club, type) {
+  recentActivity.unshift({ text, club, type, time: Date.now() });
+  if (recentActivity.length > MAX_ACTIVITY) recentActivity.length = MAX_ACTIVITY;
+  renderActivity();
+}
+function relativeTime(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 5) return 'just now';
+  if (s < 60) return `${s}s ago`;
+  const m = Math.floor(s / 60);
+  if (m < 60) return `${m}m ago`;
+  const h = Math.floor(m / 60);
+  return `${h}h ago`;
+}
+function renderActivity() {
+  const list = document.getElementById('activityList');
+  if (!list) return;
+  if (recentActivity.length === 0) {
+    list.replaceChildren(el('div', { class: 'activity-empty' }, ['No activity yet — award some points to get started.']));
+    return;
+  }
+  list.replaceChildren(...recentActivity.map(item => el('div', { class: 'activity-row' }, [
+    el('span', { class: `activity-dot club-dot ${CLUBS[item.club].key}` }),
+    el('span', { class: 'activity-text' }, [
+      item.text,
+      el('span', { class: 'a-club' }, [item.club]),
+      el('span', { class: 'activity-type' }, [item.type === 'group' ? 'Group' : item.type === 'edit' ? 'Edit' : 'Award'])
+    ]),
+    el('span', { class: 'activity-time' }, [relativeTime(item.time)])
+  ])));
+}
+// Tick relative times every 10s
+setInterval(() => { if (recentActivity.length) renderActivity(); }, 10000);
+
+// ── Reset all scores ──
+function resetAllScores() {
+  if (!confirm('Reset all scores to 0? This cannot be undone.')) return;
+  studentsData.students.forEach(s => s.individualPoint = 0);
+  recentActivity = [];
+  previousLeader = null;
+  playTone(440, 0.1, 'sine');
+  setTimeout(() => playTone(330, 0.18, 'sine'), 80);
+  updateLeaderboard();
+  refreshEditDropdown();
+  renderClubPicker();
+  renderActivity();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('addBtn').addEventListener('click', addIndividualPoints);
+  document.getElementById('editBtn').addEventListener('click', editIndividualPoints);
+  document.getElementById('editStudentSelect').addEventListener('change', updateEditInput);
+  document.getElementById('groupBtn').addEventListener('click', addGroupPoints);
+  document.getElementById('updateAwardBtn').addEventListener('click', updateAward);
+  document.getElementById('newAwardBtn').addEventListener('click', addNewAward);
+  document.getElementById('deleteAwardBtn').addEventListener('click', deleteAward);
+  document.getElementById('awardEditSelect').addEventListener('change', loadAwardForEdit);
+
+  initTheme();
+  initSound();
+  document.getElementById('resetBtn').addEventListener('click', resetAllScores);
+  updateLeaderboard();
+  // Reset previousLeader after first render so initial paint doesn't trigger the banner.
+  previousLeader = null;
+  populateDropdowns();
+  populateAwardEditDropdown();
+  refreshAwardDropdown();
+  renderClubPicker();
+});
+</script>
+</body>
+</html>
