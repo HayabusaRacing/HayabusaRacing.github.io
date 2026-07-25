@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Cup Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-y: scroll;
+        }
+        
+        h1 {
+            color: #333;
+            margin: 0 0 20px 0;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: #e9ecef;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            background-color: #e9ecef;
+            border: none;
+            border-right: 1px solid #dee2e6;
+            font-size: 14px;
+            color: #495057;
+            transition: background-color 0.2s;
+        }
+        
+        .tab:hover {
+            background-color: #dee2e6;
+        }
+        
+        .tab.active {
+            background-color: white;
+            color: #007bff;
+            font-weight: 600;
+            border-bottom: 2px solid white;
+            margin-bottom: -2px;
+        }
+        
+        .tab-content {
+            padding: 30px;
+            display: none;
+            min-height: 400px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: white;
+            box-sizing: border-box;
+        }
+
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn + .btn {
+            margin-left: 10px;
+        }
+
+        .club-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .club-card {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+        }
+
+        .club-delphian {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .club-isthmian {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .club-oldhundred {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .club-card h2 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+        }
+
+        .club-card .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .student-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .student-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            margin-bottom: 5px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .filter-row .grow {
+            flex: 1 1 260px;
+            min-width: 220px;
+        }
+
+        .filter-row select {
+            min-width: 160px;
+        }
+
+        .student-checklist {
+            max-height: 320px;
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .student-check-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            margin-bottom: 6px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .muted {
+            color: #6c757d;
+            font-size: 13px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+
+        .message-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(event, 'tab1')">Home</button>
+            <button class="tab" onclick="switchTab(event, 'tab2')">Add Individual Points</button>
+            <button class="tab" onclick="switchTab(event, 'tab3')">Edit Individual Points</button>
+            <button class="tab" onclick="switchTab(event, 'tab5')">Group Awards</button>
+            <button class="tab" onclick="switchTab(event, 'tab4')">Edit Award Points</button>
+        </div>
+
+        <div id="tab1" class="tab-content active">
+            <h1>Club Cup Leaderboard</h1>
+            <div class="club-scores" id="clubScores"></div>
+            
+            <h2>All Students</h2>
+            <div class="student-list" id="studentList"></div>
+        </div>
+
+        <div id="tab2" class="tab-content">
+            <h1>Add Individual Points</h1>
+            <p>Select a student and award to add points to their individual score.</p>
+            
+            <div class="form-group">
+                <label for="studentSelect">Select Student:</label>
+                <select id="studentSelect">
+                    <option value="">-- Choose a student --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="awardSelect">Select Award:</label>
+                <select id="awardSelect">
+                    <option value="">-- Choose an award --</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" onclick="addIndividualPoints()">Add Points</button>
+            <div id="addMessage"></div>
+        </div>
+
+        <div id="tab3" class="tab-content">
+            <h1>Edit Individual Points</h1>
+            <p>Manually adjust a student's individual points (for corrections).</p>
+            
+            <div class="form-group">
+                <label for="editStudentSelect">Select Student:</label>
+                <select id="editStudentSelect" onchange="updateEditPointsInput()">
+                    <option value="">-- Choose a student --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="editPointsInput">New Points Value:</label>
+                <input type="number" id="editPointsInput" min="0" value="0">
+            </div>
+
+            <button class="btn btn-primary" onclick="editIndividualPoints()">Update Points</button>
+            <div id="editMessage"></div>
+        </div>
+
+        <div id="tab5" class="tab-content">
+            <h1>Group Awards</h1>
+            <p>Select an award and check students to add points in bulk.</p>
+
+            <div class="form-group">
+                <label for="groupAwardSelect">Select Award:</label>
+                <select id="groupAwardSelect">
+                    <option value="">-- Choose an award --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <div class="filter-row">
+                    <input class="grow" type="text" id="groupSearch" placeholder="Search by name or initial" oninput="renderGroupStudentList()">
+                    <select id="groupSort" onchange="renderGroupStudentList()">
+                        <option value="name-asc">Name A-Z</option>
+                        <option value="name-desc">Name Z-A</option>
+                        <option value="club-asc">Club, then Name</option>
+                    </select>
+                </div>
+                <label><input type="checkbox" id="groupSelectAll" onchange="toggleSelectAll()"> Select All Visible</label>
+                <div class="muted" id="groupResultInfo"></div>
+                <div class="student-checklist" id="groupStudentChecklist"></div>
+            </div>
+
+            <button class="btn btn-primary" onclick="addGroupPoints()">Add Points to Selected</button>
+            <div id="groupMessage"></div>
+        </div>
+
+        <div id="tab4" class="tab-content">
+            <h1>Edit Award Points</h1>
+            <p>Modify the point values for each award or add a new award.</p>
+            
+            <div class="form-group">
+                <label for="awardEditSelect">Select Award to Edit:</label>
+                <select id="awardEditSelect" onchange="loadAwardForEdit()">
+                    <option value="">-- Choose an award --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="awardNameInput">Award Name:</label>
+                <input type="text" id="awardNameInput" placeholder="Enter award name">
+            </div>
+
+            <div class="form-group">
+                <label for="awardPointsInput">Award Points:</label>
+                <input type="number" id="awardPointsInput" min="0" value="0">
+            </div>
+
+            <button class="btn btn-primary" onclick="updateAward()">Update Award</button>
+            <button class="btn btn-success" onclick="addNewAward()">Add New Award</button>
+            <div id="awardMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        const studentsData = {
+            "students": [
+                {"name": "Alex", "club": "Delphian", "individualPoint": 0},
+                {"name": "Jordan", "club": "Delphian", "individualPoint": 0},
+                {"name": "Taylor", "club": "Delphian", "individualPoint": 0},
+                {"name": "Morgan", "club": "Delphian", "individualPoint": 0},
+                {"name": "Casey", "club": "Delphian", "individualPoint": 0},
+                {"name": "Riley", "club": "Delphian", "individualPoint": 0},
+                {"name": "Jamie", "club": "Delphian", "individualPoint": 0},
+                {"name": "Sam", "club": "Isthmian", "individualPoint": 0},
+                {"name": "Avery", "club": "Isthmian", "individualPoint": 0},
+                {"name": "Charlie", "club": "Isthmian", "individualPoint": 0},
+                {"name": "Dakota", "club": "Isthmian", "individualPoint": 0},
+                {"name": "Reese", "club": "Isthmian", "individualPoint": 0},
+                {"name": "Skylar", "club": "Isthmian", "individualPoint": 0},
+                {"name": "Blake", "club": "Old Hundred", "individualPoint": 0},
+                {"name": "Emerson", "club": "Old Hundred", "individualPoint": 0},
+                {"name": "Parker", "club": "Old Hundred", "individualPoint": 0},
+                {"name": "Quinn", "club": "Old Hundred", "individualPoint": 0},
+                {"name": "Peyton", "club": "Old Hundred", "individualPoint": 0},
+                {"name": "Drew", "club": "Old Hundred", "individualPoint": 0},
+                {"name": "Sage", "club": "Old Hundred", "individualPoint": 0}
+            ]
+        };
+
+        const awardsData = {
+            "awards": [
+                {"name": "Academic Excellence", "points": 10},
+                {"name": "Perfect Attendance", "points": 5},
+                {"name": "Leadership Award", "points": 15},
+                {"name": "Community Service", "points": 8},
+                {"name": "Sports Achievement", "points": 12},
+                {"name": "Creative Arts", "points": 10},
+                {"name": "Team Spirit", "points": 7},
+                {"name": "Innovation Prize", "points": 20},
+                {"name": "Peer Mentor", "points": 6},
+                {"name": "Environmental Champion", "points": 9}
+            ]
+        };
+
+        function switchTab(event, tabId) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            if (tabId === 'tab1') {
+                updateLeaderboard();
+            } else if (tabId === 'tab3') {
+                refreshEditStudentDropdown();
+            } else if (tabId === 'tab4') {
+                populateAwardEditDropdown();
+            } else if (tabId === 'tab5') {
+                refreshAwardDropdown();
+                renderGroupStudentList();
+            }
+        }
+
+        function calculateClubScores() {
+            const clubs = {
+                'Delphian': 0,
+                'Isthmian': 0,
+                'Old Hundred': 0
+            };
+            
+            studentsData.students.forEach(student => {
+                clubs[student.club] += student.individualPoint;
+            });
+            
+            return clubs;
+        }
+
+        function updateLeaderboard() {
+            const scores = calculateClubScores();
+            const clubScoresDiv = document.getElementById('clubScores');
+            
+            clubScoresDiv.innerHTML = `
+                <div class="club-card club-delphian">
+                    <h2>Delphian</h2>
+                    <div class="score">${scores['Delphian']}</div>
+                    <p>points</p>
+                </div>
+                <div class="club-card club-isthmian">
+                    <h2>Isthmian</h2>
+                    <div class="score">${scores['Isthmian']}</div>
+                    <p>points</p>
+                </div>
+                <div class="club-card club-oldhundred">
+                    <h2>Old Hundred</h2>
+                    <div class="score">${scores['Old Hundred']}</div>
+                    <p>points</p>
+                </div>
+            `;
+            
+            const studentListDiv = document.getElementById('studentList');
+            studentListDiv.innerHTML = studentsData.students
+                .map(student => `
+                    <div class="student-item">
+                        <span><strong>${student.name}</strong> (${student.club})</span>
+                        <span>${student.individualPoint} pts</span>
+                    </div>
+                `).join('');
+        }
+
+        function populateDropdowns() {
+            const studentSelect = document.getElementById('studentSelect');
+            const editStudentSelect = document.getElementById('editStudentSelect');
+            const awardSelect = document.getElementById('awardSelect');
+            
+            studentsData.students.forEach((student, index) => {
+                const option1 = document.createElement('option');
+                option1.value = index;
+                option1.textContent = `${student.name} (${student.club})`;
+                studentSelect.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = index;
+                option2.textContent = `${student.name} (${student.club}) - Current: ${student.individualPoint} pts`;
+                editStudentSelect.appendChild(option2);
+            });
+            
+            awardsData.awards.forEach((award, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${award.name} (${award.points} points)`;
+                awardSelect.appendChild(option);
+            });
+        }
+
+        function refreshEditStudentDropdown() {
+            const editStudentSelect = document.getElementById('editStudentSelect');
+            const currentValue = editStudentSelect.value;
+            
+            editStudentSelect.innerHTML = '<option value="">-- Choose a student --</option>';
+            
+            studentsData.students.forEach((student, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${student.name} (${student.club}) - Current: ${student.individualPoint} pts`;
+                editStudentSelect.appendChild(option);
+            });
+            
+            if (currentValue) {
+                editStudentSelect.value = currentValue;
+                updateEditPointsInput();
+            }
+        }
+
+        function updateEditPointsInput() {
+            const studentIndex = document.getElementById('editStudentSelect').value;
+            if (studentIndex) {
+                const student = studentsData.students[studentIndex];
+                document.getElementById('editPointsInput').value = student.individualPoint;
+            }
+        }
+
+        function addIndividualPoints() {
+            const studentIndex = document.getElementById('studentSelect').value;
+            const awardIndex = document.getElementById('awardSelect').value;
+            const messageDiv = document.getElementById('addMessage');
+            
+            if (!studentIndex || !awardIndex) {
+                messageDiv.innerHTML = '<div class="message message-success">Please select both a student and an award.</div>';
+                return;
+            }
+            
+            const student = studentsData.students[studentIndex];
+            const award = awardsData.awards[awardIndex];
+            
+            student.individualPoint += award.points;
+            
+            messageDiv.innerHTML = `<div class="message message-success">Added ${award.points} points to ${student.name}! New total: ${student.individualPoint} points</div>`;
+            
+            document.getElementById('studentSelect').value = '';
+            document.getElementById('awardSelect').value = '';
+            
+            updateLeaderboard();
+            refreshEditStudentDropdown();
+            renderGroupStudentList();
+
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 3000);
+        }
+
+        function editIndividualPoints() {
+            const studentIndex = document.getElementById('editStudentSelect').value;
+            const newPoints = parseInt(document.getElementById('editPointsInput').value);
+            const messageDiv = document.getElementById('editMessage');
+            
+            if (!studentIndex) {
+                messageDiv.innerHTML = '<div class="message message-success">Please select a student.</div>';
+                return;
+            }
+            
+            const student = studentsData.students[studentIndex];
+            student.individualPoint = newPoints;
+            
+            messageDiv.innerHTML = `<div class="message message-success">Updated ${student.name}'s points to ${newPoints}!</div>`;
+            
+            refreshEditStudentDropdown();
+            updateLeaderboard();
+            renderGroupStudentList();
+            
+            document.getElementById('editStudentSelect').value = '';
+            document.getElementById('editPointsInput').value = '0';
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 3000);
+        }
+
+        function populateAwardEditDropdown() {
+            const awardEditSelect = document.getElementById('awardEditSelect');
+            awardEditSelect.innerHTML = '<option value="">-- Choose an award --</option>';
+            
+            awardsData.awards.forEach((award, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${award.name} (${award.points} points)`;
+                awardEditSelect.appendChild(option);
+            });
+            
+            document.getElementById('awardNameInput').value = '';
+            document.getElementById('awardPointsInput').value = '0';
+            loadAwardForEdit();
+        }
+
+        function loadAwardForEdit() {
+            const awardIndex = document.getElementById('awardEditSelect').value;
+            
+            if (awardIndex) {
+                const award = awardsData.awards[awardIndex];
+                document.getElementById('awardNameInput').value = award.name;
+                document.getElementById('awardPointsInput').value = award.points;
+            } else {
+                document.getElementById('awardNameInput').value = '';
+                document.getElementById('awardPointsInput').value = '0';
+            }
+        }
+
+        function renderGroupStudentList() {
+            const searchText = (document.getElementById('groupSearch')?.value || '').toLowerCase();
+            const sortValue = document.getElementById('groupSort')?.value || 'name-asc';
+            const checklist = document.getElementById('groupStudentChecklist');
+            const info = document.getElementById('groupResultInfo');
+            if (!checklist) return;
+
+            const indexed = studentsData.students.map((student, index) => ({...student, index}));
+            let filtered = indexed;
+
+            if (searchText) {
+                filtered = filtered.filter(s => {
+                    const name = s.name.toLowerCase();
+                    const initial = name.charAt(0);
+                    return name.includes(searchText) || initial === searchText;
+                });
+            }
+
+            if (sortValue === 'name-asc') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortValue === 'name-desc') {
+                filtered.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (sortValue === 'club-asc') {
+                filtered.sort((a, b) => a.club.localeCompare(b.club) || a.name.localeCompare(b.name));
+            }
+
+            if (filtered.length === 0) {
+                checklist.innerHTML = '<div class="muted">No students match the search.</div>';
+            } else {
+                checklist.innerHTML = filtered.map(s => `
+                    <label class="student-check-row">
+                        <span><input type="checkbox" class="group-student-check" data-index="${s.index}"> <strong>${s.name}</strong> (${s.club})</span>
+                        <span>${s.individualPoint} pts</span>
+                    </label>
+                `).join('');
+            }
+
+            if (info) {
+                const total = indexed.length;
+                const shown = filtered.length;
+                info.textContent = `Showing ${shown} of ${total} students` + (searchText ? ` (filter: "${searchText}")` : '');
+            }
+
+            document.getElementById('groupSelectAll').checked = false;
+        }
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('groupSelectAll');
+            document.querySelectorAll('.group-student-check').forEach(cb => {
+                cb.checked = selectAll.checked;
+            });
+        }
+
+        function updateAward() {
+            const awardIndex = document.getElementById('awardEditSelect').value;
+            const awardName = document.getElementById('awardNameInput').value.trim();
+            const awardPoints = parseInt(document.getElementById('awardPointsInput').value);
+            const messageDiv = document.getElementById('awardMessage');
+            
+            if (!awardIndex) {
+                messageDiv.innerHTML = '<div class="message message-success">Please select an award to update.</div>';
+                setTimeout(() => messageDiv.innerHTML = '', 3000);
+                return;
+            }
+            
+            if (!awardName) {
+                messageDiv.innerHTML = '<div class="message message-success">Please enter an award name.</div>';
+                setTimeout(() => messageDiv.innerHTML = '', 3000);
+                return;
+            }
+            
+            awardsData.awards[awardIndex].name = awardName;
+            awardsData.awards[awardIndex].points = awardPoints;
+            
+            messageDiv.innerHTML = `<div class="message message-success">Updated "${awardName}" to ${awardPoints} points!</div>`;
+            
+            populateAwardEditDropdown();
+            refreshAwardDropdown();
+            renderGroupStudentList();
+            
+            setTimeout(() => messageDiv.innerHTML = '', 3000);
+        }
+
+        function addNewAward() {
+            const awardName = document.getElementById('awardNameInput').value.trim();
+            const awardPoints = parseInt(document.getElementById('awardPointsInput').value);
+            const messageDiv = document.getElementById('awardMessage');
+            
+            if (!awardName) {
+                messageDiv.innerHTML = '<div class="message message-success">Please enter an award name.</div>';
+                setTimeout(() => messageDiv.innerHTML = '', 3000);
+                return;
+            }
+            
+            awardsData.awards.push({
+                name: awardName,
+                points: awardPoints
+            });
+            
+            messageDiv.innerHTML = `<div class="message message-success">Added new award "${awardName}" with ${awardPoints} points!</div>`;
+            
+            populateAwardEditDropdown();
+            refreshAwardDropdown();
+            renderGroupStudentList();
+            
+            document.getElementById('awardNameInput').value = '';
+            document.getElementById('awardPointsInput').value = '0';
+            
+            setTimeout(() => messageDiv.innerHTML = '', 3000);
+        }
+
+        function refreshAwardDropdown() {
+            const awardSelect = document.getElementById('awardSelect');
+            const groupAwardSelect = document.getElementById('groupAwardSelect');
+            awardSelect.innerHTML = '<option value="">-- Choose an award --</option>';
+            groupAwardSelect.innerHTML = '<option value="">-- Choose an award --</option>';
+            
+            awardsData.awards.forEach((award, index) => {
+                const option1 = document.createElement('option');
+                option1.value = index;
+                option1.textContent = `${award.name} (${award.points} points)`;
+                awardSelect.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = index;
+                option2.textContent = `${award.name} (${award.points} points)`;
+                groupAwardSelect.appendChild(option2);
+            });
+        }
+
+        function addGroupPoints() {
+            const awardIndex = document.getElementById('groupAwardSelect').value;
+            const messageDiv = document.getElementById('groupMessage');
+            const selected = Array.from(document.querySelectorAll('.group-student-check:checked'));
+
+            if (!awardIndex) {
+                messageDiv.innerHTML = '<div class="message message-success">Please select an award.</div>';
+                setTimeout(() => messageDiv.innerHTML = '', 3000);
+                return;
+            }
+
+            if (selected.length === 0) {
+                messageDiv.innerHTML = '<div class="message message-success">Please select at least one student.</div>';
+                setTimeout(() => messageDiv.innerHTML = '', 3000);
+                return;
+            }
+
+            const award = awardsData.awards[awardIndex];
+
+            selected.forEach(cb => {
+                const idx = parseInt(cb.getAttribute('data-index'));
+                studentsData.students[idx].individualPoint += award.points;
+            });
+
+            messageDiv.innerHTML = `<div class="message message-success">Added ${award.points} points to ${selected.length} students.</div>`;
+
+            document.getElementById('groupSelectAll').checked = false;
+            renderGroupStudentList();
+            refreshEditStudentDropdown();
+            updateLeaderboard();
+            
+            setTimeout(() => messageDiv.innerHTML = '', 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLeaderboard();
+            populateDropdowns();
+            populateAwardEditDropdown();
+            refreshAwardDropdown();
+            renderGroupStudentList();
+        });
+    </script>
+</body>
+</html>

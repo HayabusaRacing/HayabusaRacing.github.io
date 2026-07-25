@@ -1,0 +1,104 @@
+{
+  "students": [
+    {
+      "name": "Alex",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Jordan",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Taylor",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Morgan",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Casey",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Riley",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Jamie",
+      "club": "Delphian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Sam",
+      "club": "Isthmian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Avery",
+      "club": "Isthmian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Charlie",
+      "club": "Isthmian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Dakota",
+      "club": "Isthmian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Reese",
+      "club": "Isthmian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Skylar",
+      "club": "Isthmian",
+      "individualPoint": 0
+    },
+    {
+      "name": "Blake",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    },
+    {
+      "name": "Emerson",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    },
+    {
+      "name": "Parker",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    },
+    {
+      "name": "Quinn",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    },
+    {
+      "name": "Peyton",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    },
+    {
+      "name": "Drew",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    },
+    {
+      "name": "Sage",
+      "club": "Old Hundred",
+      "individualPoint": 0
+    }
+  ]
+}

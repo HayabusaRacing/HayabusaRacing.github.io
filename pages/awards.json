@@ -1,0 +1,44 @@
+{
+  "awards": [
+    {
+      "name": "Academic Excellence",
+      "points": 10
+    },
+    {
+      "name": "Perfect Attendance",
+      "points": 5
+    },
+    {
+      "name": "Leadership Award",
+      "points": 15
+    },
+    {
+      "name": "Community Service",
+      "points": 8
+    },
+    {
+      "name": "Sports Achievement",
+      "points": 12
+    },
+    {
+      "name": "Creative Arts",
+      "points": 10
+    },
+    {
+      "name": "Team Spirit",
+      "points": 7
+    },
+    {
+      "name": "Innovation Prize",
+      "points": 20
+    },
+    {
+      "name": "Peer Mentor",
+      "points": 6
+    },
+    {
+      "name": "Environmental Champion",
+      "points": 9
+    }
+  ]
+}
